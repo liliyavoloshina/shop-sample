@@ -2,49 +2,42 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-list>
-          <v-subheader>Products</v-subheader>
-
-          <v-list-item v-for="product in products" :key="product.id">
-            <v-list-item-avatar class="grey"> </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title v-text="product.name"></v-list-item-title>
-
-              <v-list-item-subtitle
-                v-text="product.createdAt"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn icon>
-                <v-icon color="grey lighten-1">mdi-information</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+        <AdminProductList />
       </v-col>
 
-      <v-col align="end">
-        <v-btn :to="{name: 'AdminAddNewProduct'}" class="my-5 mr-4"> Add New Product </v-btn>
+      <v-col>
+        <AdminAddNewProduct />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import AdminProductList from '@/components/admin/AdminProductList'
+import AdminAddNewProduct from '@/components/admin/AdminAddNewProduct'
 export default {
   name: 'AdminMain',
+  components: {
+    AdminProductList,
+    AdminAddNewProduct
+  },
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          name: 'Sweeter',
-          createdAt: '12.12.12'
-        }
-      ]
+      loading: false,
+      errors: null
     }
+  },
+  created() {
+    this.loading = true
+    this.$store
+      .dispatch('loadProducts')
+      .then(() => {
+        this.loading = false
+      })
+      .catch(e => {
+        this.errors = e
+        console.log(e)
+      })
   }
 }
 </script>
