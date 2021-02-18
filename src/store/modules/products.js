@@ -9,7 +9,8 @@ export const mutationTypes = {
 }
 export const actionTypes = {
   addNewProduct: 'addNewProduct',
-  loadProducts: 'loadProducts'
+  loadProducts: 'loadProducts',
+  removeProduct: 'removeProduct'
 }
 const mutations = {
   [mutationTypes.UPDATE_PRODUCTS](state, payload) {
@@ -18,15 +19,37 @@ const mutations = {
 }
 const actions = {
   [actionTypes.addNewProduct](_, product) {
-    productApi.addProduct(product)
-    console.log(product)
+    return new Promise((resolve, reject) => {
+      productApi.addProduct(product).then(
+        () => {
+          resolve()
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
   },
   [actionTypes.loadProducts]({ commit }) {
     return new Promise((resolve, reject) => {
       productApi.getProducts().then(
         (response) => {
+          console.log(response.data)
           commit(mutationTypes.UPDATE_PRODUCTS, response.data)
           resolve(response.data)
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
+  },
+  [actionTypes.removeProduct](_, product) {
+    return new Promise((resolve, reject) => {
+      productApi.removeProduct(product).then(
+        () => {
+          // commit(mutationTypes.UPDATE_PRODUCTS, response.data)
+          resolve()
         },
         (error) => {
           reject(error)

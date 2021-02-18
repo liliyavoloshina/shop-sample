@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-5">
+  <v-card class="mt-5 pa-3">
     <v-card-title>Add New Product</v-card-title>
     <v-card-text>
       <form>
@@ -11,7 +11,14 @@
           @input="$v.product.name.$touch()"
           @blur="$v.product.name.$touch()"
         ></v-text-field>
-        <v-file-input label="Image"></v-file-input>
+        <v-text-field
+          v-model="product.image"
+          :error-messages="imageErrors"
+          label="Image"
+          required
+          @input="$v.product.image.$touch()"
+          @blur="$v.product.image.$touch()"
+        ></v-text-field>
         <v-textarea
           v-model="product.description"
           :error-messages="descriptionErrors"
@@ -30,7 +37,7 @@
           @change="$v.product.category.$touch()"
           @blur="$v.product.category.$touch()"
         ></v-select>
-        <v-row align="center">
+        <v-row>
           <v-col>
             <v-text-field
               v-model="product.price"
@@ -46,6 +53,7 @@
           ></v-col>
           <v-col
             ><v-checkbox
+              class="mt-auto"
               v-model="product.discount"
               label="Discount"
             ></v-checkbox
@@ -54,22 +62,22 @@
       </form>
     </v-card-text>
     <v-card-actions>
-      <v-btn class="mr-4" @click="submit">Add</v-btn>
+      <v-btn @click="submit" block>Add</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-// import axios from 'axios'
 import { helpers } from 'vuelidate/lib/validators'
 const alpha = helpers.regex('alpha', /^[a-zA-Zа-яА-я]*$/)
-import { required, minLength, numeric } from 'vuelidate/lib/validators'
+import { required, minLength, numeric, url } from 'vuelidate/lib/validators'
 
 export default {
   name: 'AdminAddNewProduct',
   validations: {
     product: {
       name: { required, alpha },
+      image: { required, url },
       description: { required, minLength: minLength(10) },
       category: { required },
       price: { required, numeric },
@@ -102,6 +110,13 @@ export default {
       !this.$v.product.name.required && errors.push('Name is required.')
       return errors
     },
+    imageErrors() {
+      const errors = []
+      if (!this.$v.product.name.$dirty) return errors
+      !this.$v.product.image.required && errors.push('Image is required.')
+      !this.$v.product.image.url && errors.push('Image must be an URL.')
+      return errors
+    },
     descriptionErrors() {
       const errors = []
       if (!this.$v.product.description.$dirty) return errors
@@ -124,13 +139,9 @@ export default {
       return errors
     }
   },
-
   methods: {
     submit() {
       this.$v.$touch()
-      // const sendingData = JSON.stringify({
-      //   product: this.product
-      // })
       const sendingData = JSON.stringify({
         name: this.product.name,
         description: this.product.description,
@@ -139,15 +150,21 @@ export default {
         category: this.product.category,
         discount: this.product.discount
       })
-      //  axios.post('https://simple-shop-7a276-default-rtdb.firebaseio.com/products.json', sendingData);
-      console.log(sendingData)
       this.loading = true
       this.$store
         .dispatch('addNewProduct', sendingData)
         .then(() => {
           this.loading = false
+          this.$store.dispatch('loadProducts')
+          this.$v.$reset()
+          this.product.name = ''
+          this.product.description = ''
+          this.product.price = ''
+          this.product.image = ''
+          this.product.category = ''
+          this.product.discount = false
         })
-        .catch((e) => {
+        .catch(e => {
           this.errors = e
           console.log(e)
         })

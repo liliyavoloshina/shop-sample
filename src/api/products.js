@@ -8,7 +8,12 @@ const getProducts = () => {
   return axios.get('/products.json')
 }
 
+const removeProduct = (product) => {
+  return axios.delete(`/products/${product}`)
+}
+
 export default {
   addProduct,
-  getProducts
+  getProducts,
+  removeProduct
 }
