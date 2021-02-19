@@ -34,9 +34,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       productApi.getProducts().then(
         (response) => {
-          console.log(response.data)
-          commit(mutationTypes.UPDATE_PRODUCTS, response.data)
-          resolve(response.data)
+          const data = response.data
+          const products = []
+          for (let key in data) {
+            const product = data[key]
+            product.id = key
+            products.push(product)
+          }
+          commit(mutationTypes.UPDATE_PRODUCTS, products)
         },
         (error) => {
           reject(error)
@@ -44,9 +49,9 @@ const actions = {
       )
     })
   },
-  [actionTypes.removeProduct](_, product) {
+  [actionTypes.removeProduct](_, id) {
     return new Promise((resolve, reject) => {
-      productApi.removeProduct(product).then(
+      productApi.removeProduct(id).then(
         () => {
           // commit(mutationTypes.UPDATE_PRODUCTS, response.data)
           resolve()

@@ -155,7 +155,6 @@ export default {
         .dispatch('addNewProduct', sendingData)
         .then(() => {
           this.loading = false
-          this.$store.dispatch('loadProducts')
           this.$v.$reset()
           this.product.name = ''
           this.product.description = ''
