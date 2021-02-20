@@ -148,7 +148,8 @@ export default {
         price: this.product.price,
         image: this.product.image,
         category: this.product.category,
-        discount: this.product.discount
+        discount: this.product.discount,
+        createdAt: new Date().toLocaleString()
       })
       this.loading = true
       this.$store

@@ -5,32 +5,31 @@ const state = {
 }
 
 export const mutationTypes = {
-  UPDATE_PRODUCTS: 'UPDATE_PRODUCTS'
+  SET_PRODUCTS: 'SET_PRODUCTS',
+  ADD_NEW_PRODUCT: 'ADD_NEW_PRODUCT',
+  REMOVE_PRODUCT: 'REMOVE_PRODUCT'
 }
 export const actionTypes = {
   addNewProduct: 'addNewProduct',
-  loadProducts: 'loadProducts',
+  setProducts: 'setProducts',
   removeProduct: 'removeProduct'
 }
 const mutations = {
-  [mutationTypes.UPDATE_PRODUCTS](state, payload) {
+  [mutationTypes.SET_PRODUCTS](state, payload) {
     state.products = payload
+  },
+  [mutationTypes.ADD_NEW_PRODUCT](state, payload) {
+    state.products.push(payload)
+  },
+  [mutationTypes.REMOVE_PRODUCT](state, payload) {
+    const index = state.products.indexOf(payload)
+    if (index > -1) {
+      state.products.splice(index, 1)
+    }
   }
 }
 const actions = {
-  [actionTypes.addNewProduct](_, product) {
-    return new Promise((resolve, reject) => {
-      productApi.addProduct(product).then(
-        () => {
-          resolve()
-        },
-        (error) => {
-          reject(error)
-        }
-      )
-    })
-  },
-  [actionTypes.loadProducts]({ commit }) {
+  [actionTypes.setProducts]({ commit }) {
     return new Promise((resolve, reject) => {
       productApi.getProducts().then(
         (response) => {
@@ -41,7 +40,8 @@ const actions = {
             product.id = key
             products.push(product)
           }
-          commit(mutationTypes.UPDATE_PRODUCTS, products)
+          commit(mutationTypes.SET_PRODUCTS, products)
+          resolve()
         },
         (error) => {
           reject(error)
@@ -49,11 +49,26 @@ const actions = {
       )
     })
   },
-  [actionTypes.removeProduct](_, id) {
+  [actionTypes.addNewProduct]({ commit }, product) {
     return new Promise((resolve, reject) => {
-      productApi.removeProduct(id).then(
+      productApi.addProduct(product).then(
+        (response) => {
+          const newProduct = JSON.parse(product)
+          newProduct.id = response.data.name
+          commit(mutationTypes.ADD_NEW_PRODUCT, newProduct)
+          resolve()
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
+  },
+  [actionTypes.removeProduct]({commit}, product) {
+    return new Promise((resolve, reject) => {
+      productApi.removeProduct(product.id).then(
         () => {
-          // commit(mutationTypes.UPDATE_PRODUCTS, response.data)
+          commit(mutationTypes.REMOVE_PRODUCT, product)
           resolve()
         },
         (error) => {

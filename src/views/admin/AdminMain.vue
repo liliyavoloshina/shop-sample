@@ -30,7 +30,7 @@ export default {
   created() {
     this.loading = true
     this.$store
-      .dispatch('loadProducts')
+      .dispatch('setProducts')
       .then(() => {
         this.loading = false
       })
