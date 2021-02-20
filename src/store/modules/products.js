@@ -1,18 +1,21 @@
 import productApi from '@/api/products'
 
 const state = {
-  products: []
+  products: [],
+  product: {}
 }
 
 export const mutationTypes = {
   SET_PRODUCTS: 'SET_PRODUCTS',
   ADD_NEW_PRODUCT: 'ADD_NEW_PRODUCT',
-  REMOVE_PRODUCT: 'REMOVE_PRODUCT'
+  REMOVE_PRODUCT: 'REMOVE_PRODUCT',
+  GET_PRODUCT: 'GET_PRODUCT',
 }
 export const actionTypes = {
   addNewProduct: 'addNewProduct',
   setProducts: 'setProducts',
-  removeProduct: 'removeProduct'
+  removeProduct: 'removeProduct',
+  getProduct: 'getProduct',
 }
 const mutations = {
   [mutationTypes.SET_PRODUCTS](state, payload) {
@@ -26,6 +29,9 @@ const mutations = {
     if (index > -1) {
       state.products.splice(index, 1)
     }
+  },
+  [mutationTypes.GET_PRODUCT](state, payload) {
+    state.product = payload
   }
 }
 const actions = {
@@ -69,6 +75,26 @@ const actions = {
       productApi.removeProduct(product.id).then(
         () => {
           commit(mutationTypes.REMOVE_PRODUCT, product)
+          resolve()
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
+  },
+  [actionTypes.getProduct]({commit}, id) {
+    return new Promise((resolve, reject) => {
+      productApi.getProduct(id).then(
+        (response) => {
+          const data = response.data
+          let oneProduct = ''
+          for (let key in data) {
+            const product = data[key]
+            product.id = key
+            oneProduct = product
+          }
+          commit(mutationTypes.GET_PRODUCT, oneProduct)
           resolve()
         },
         (error) => {

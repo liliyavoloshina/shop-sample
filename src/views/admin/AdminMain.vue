@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <AdminProductList />
+        <AdminProductList :products="products" :loading="loading" />
       </v-col>
 
       <v-col>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AdminProductList from '@/components/admin/AdminProductList'
 import AdminAddNewProduct from '@/components/admin/AdminAddNewProduct'
 export default {
@@ -26,6 +27,11 @@ export default {
       loading: false,
       errors: null
     }
+  },
+   computed: {
+    ...mapState({
+      products: state => state.products.products.slice().reverse()
+    })
   },
   created() {
     this.loading = true

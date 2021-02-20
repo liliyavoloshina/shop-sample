@@ -23,9 +23,3 @@ export default {
   }
 }
 </script>
-
-<style>
-html {
-  overflow-y: hidden;
-}
-</style>

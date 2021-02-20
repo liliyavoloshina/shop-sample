@@ -9,14 +9,21 @@ const getProducts = () => {
 }
 
 const removeProduct = (id) => {
-  return axios.get(`/products.json?orderBy="$key"&equalTo="${id}"`).then(response => {
-    let key = Object.keys(response.data)[0]
-    axios.delete(`/products/${key}.json`)
-  })
+  return axios
+    .get(`/products.json?orderBy="$key"&equalTo="${id}"`)
+    .then((response) => {
+      let key = Object.keys(response.data)[0]
+      axios.delete(`/products/${key}.json`)
+    })
+}
+const getProduct = (id) => {
+  return axios
+    .get(`/products.json?orderBy="$key"&equalTo="${id}"`)
 }
 
 export default {
   addProduct,
   getProducts,
-  removeProduct
+  removeProduct,
+  getProduct
 }

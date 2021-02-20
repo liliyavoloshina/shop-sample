@@ -1,42 +1,50 @@
 <template>
-  <div v-if="products.length > 0">
+  <div>
     <v-subheader>Products</v-subheader>
-    <v-list>
-      <transition-group name="list">
-        <v-list-item v-for="product in products" :key="product.id">
-          <v-list-item-avatar class="grey"
-            ><img :src="product.image"
-          /></v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title v-text="product.name"></v-list-item-title>
+    <Loader v-if="loading"/>
+    <div v-else-if="products.length > 0">
+      <v-list>
+        <transition-group name="list">
+          <v-list-item v-for="product in products" :key="product.id">
+            <v-list-item-avatar class="grey"
+              ><img :src="product.image"
+            /></v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-text="product.name"></v-list-item-title>
 
-            <v-list-item-subtitle
-              v-text="product.createdAt"
-            ></v-list-item-subtitle>
-          </v-list-item-content>
+              <v-list-item-subtitle
+                v-text="product.createdAt"
+              ></v-list-item-subtitle>
+            </v-list-item-content>
 
-          <v-list-item-action>
-            <v-btn icon @click="removeProduct(product)">
-              <v-icon color="red lighten-1">mdi-trash-can-outline</v-icon>
-            </v-btn>
-          </v-list-item-action>
-        </v-list-item>
-      </transition-group>
-    </v-list>
-  </div>
-  <div v-else>
-    So empty...
+            <v-list-item-action>
+              <v-btn icon @click="removeProduct(product)">
+                <v-icon color="red lighten-1">mdi-trash-can-outline</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </transition-group>
+      </v-list>
+    </div>
+    <div v-else>So empty...</div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Loader from '@/components/UI/LoaderSpinner'
 export default {
   name: 'AdminProductList',
-  computed: {
-    ...mapState({
-      products: state => state.products.products.slice().reverse()
-    })
+  props: {
+    products: {
+      type: Array
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    }
+  },
+  components: {
+    Loader
   },
   methods: {
     removeProduct(product) {
@@ -53,7 +61,7 @@ export default {
 }
 
 .list-enter-active {
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .list-enter-to,
@@ -63,7 +71,7 @@ export default {
 }
 
 .list-leave-active {
-  transition: all .2s ease-in;
+  transition: all 0.2s ease-in;
   position: absolute;
 }
 
@@ -73,6 +81,6 @@ export default {
 }
 
 .list-move {
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 </style>

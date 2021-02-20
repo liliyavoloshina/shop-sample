@@ -36,7 +36,12 @@ const routes = [
     meta: {
       layout: 'admin-layout'
     }
-  }
+  },
+  {
+    path: '/product/:id',
+    name: 'Product',
+    component: () => import('@/views/Product')
+  },
 ]
 
 const router = new VueRouter({
