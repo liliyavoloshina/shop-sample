@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-5 mb-5">
-    <LoaderSpinner v-if="loading"/>
+    <LoaderSpinner v-if="loading" />
     <div v-else>
       <div class="title mb-1">
         {{ product.name }}
@@ -8,10 +8,12 @@
       <v-row class="mt-3">
         <v-col cols="12" md="6">
           <v-img
+            v-if="product.image"
             :src="product.image"
             max-height="400"
             class="deep-purple lighten-5"
           ></v-img>
+          <v-img v-else height="250" class="deep-purple lighten-5"></v-img>
         </v-col>
         <v-col cols="12" md="6">
           <v-row align="center" no-gutters style="height: 100%">

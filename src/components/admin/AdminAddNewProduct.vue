@@ -164,7 +164,7 @@ export default {
           this.product.category = ''
           this.product.discount = false
         })
-        .catch(e => {
+        .catch((e) => {
           this.errors = e
           console.log(e)
         })

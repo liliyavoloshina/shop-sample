@@ -1,22 +1,23 @@
 import productApi from '@/api/products'
 
-const state = {
-  products: [],
-  product: {}
-}
-
 export const mutationTypes = {
   SET_PRODUCTS: 'SET_PRODUCTS',
   ADD_NEW_PRODUCT: 'ADD_NEW_PRODUCT',
   REMOVE_PRODUCT: 'REMOVE_PRODUCT',
-  GET_PRODUCT: 'GET_PRODUCT',
+  GET_PRODUCT: 'GET_PRODUCT'
 }
 export const actionTypes = {
   addNewProduct: 'addNewProduct',
   setProducts: 'setProducts',
   removeProduct: 'removeProduct',
-  getProduct: 'getProduct',
+  getProduct: 'getProduct'
 }
+
+const state = {
+  products: [],
+  product: {}
+}
+
 const mutations = {
   [mutationTypes.SET_PRODUCTS](state, payload) {
     state.products = payload
@@ -70,7 +71,7 @@ const actions = {
       )
     })
   },
-  [actionTypes.removeProduct]({commit}, product) {
+  [actionTypes.removeProduct]({ commit }, product) {
     return new Promise((resolve, reject) => {
       productApi.removeProduct(product.id).then(
         () => {
@@ -83,7 +84,7 @@ const actions = {
       )
     })
   },
-  [actionTypes.getProduct]({commit}, id) {
+  [actionTypes.getProduct]({ commit }, id) {
     return new Promise((resolve, reject) => {
       productApi.getProduct(id).then(
         (response) => {

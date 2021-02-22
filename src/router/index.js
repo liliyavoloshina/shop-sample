@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/admin',
     name: 'AdminMain',
-    component: () => import('@/views/admin/AdminMain'),
+    component: () => import('@/views/AdminMain'),
     meta: {
       layout: 'admin-layout'
     }
@@ -41,6 +41,11 @@ const routes = [
     path: '/product/:id',
     name: 'Product',
     component: () => import('@/views/Product')
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('@/views/Cart')
   },
 ]
 

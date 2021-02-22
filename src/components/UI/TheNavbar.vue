@@ -12,7 +12,7 @@
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
 
-    <v-btn icon>
+    <v-btn :to="{name: 'Cart'}" icon>
       <v-icon>mdi-cart</v-icon>
     </v-btn>
   </v-app-bar>

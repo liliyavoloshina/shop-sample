@@ -39,6 +39,15 @@ export default {
         this.errors = e
         console.log(e)
       })
+    this.$store
+      .dispatch('setCart')
+      .then(() => {
+        this.loading = false
+      })
+      .catch(e => {
+        this.errors = e
+        console.log(e)
+      })
   }
 }
 </script>
