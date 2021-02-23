@@ -1,10 +1,19 @@
 <template>
-  <v-container class="mt-5 mb-5">
+  <div>
     <LoaderSpinner v-if="loading" />
     <v-row>
-      <Product v-for="product in products" :key="product.id" :product="product" />
+      <v-col
+        v-for="product in products"
+        :key="product.id"
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
+      >
+        <Product :product="product" />
+      </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -25,7 +34,7 @@ export default {
   },
   computed: {
     ...mapState({
-      products: state => state.products.products
+      products: (state) => state.products.products
     })
   },
   created() {
@@ -35,7 +44,7 @@ export default {
       .then(() => {
         this.loading = false
       })
-      .catch(e => {
+      .catch((e) => {
         this.errors = e
         console.log(e)
       })
@@ -44,7 +53,7 @@ export default {
       .then(() => {
         this.loading = false
       })
-      .catch(e => {
+      .catch((e) => {
         this.errors = e
         console.log(e)
       })

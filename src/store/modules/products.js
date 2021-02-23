@@ -15,12 +15,14 @@ export const actionTypes = {
 
 const state = {
   products: [],
-  product: {}
+  product: {},
+  categories: []
 }
 
 const mutations = {
-  [mutationTypes.SET_PRODUCTS](state, payload) {
-    state.products = payload
+  [mutationTypes.SET_PRODUCTS](state, {products, categories}) {
+    state.products = products
+    state.categories = categories
   },
   [mutationTypes.ADD_NEW_PRODUCT](state, payload) {
     state.products.push(payload)
@@ -47,7 +49,12 @@ const actions = {
             product.id = key
             products.push(product)
           }
-          commit(mutationTypes.SET_PRODUCTS, products)
+          const categories =[]
+          for (let i in products) {
+            const item = products[i]
+            categories.includes(item.category) ? '' : categories.push(item.category)
+          }
+          commit(mutationTypes.SET_PRODUCTS, {products, categories})
           resolve()
         },
         (error) => {

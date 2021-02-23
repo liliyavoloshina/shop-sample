@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-subheader>Products</v-subheader>
-    <Loader v-if="loading"/>
+    <Loader v-if="loading" />
     <div v-else-if="products.length > 0">
       <v-list>
         <transition-group name="list">
@@ -45,6 +45,11 @@ export default {
   },
   components: {
     Loader
+  },
+  data() {
+    return {
+      dialog: false
+    }
   },
   methods: {
     removeProduct(product) {

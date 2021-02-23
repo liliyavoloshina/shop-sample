@@ -62,7 +62,7 @@
       </form>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="submit" block>Add</v-btn>
+      <v-btn @click="submit" block :disabled="$v.product.$invalid">Add</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -81,11 +81,7 @@ export default {
       description: { required, minLength: minLength(10) },
       category: { required },
       price: { required, numeric },
-      discount: {
-        checked(val) {
-          return val
-        }
-      }
+      discount: {}
     }
   },
   data() {

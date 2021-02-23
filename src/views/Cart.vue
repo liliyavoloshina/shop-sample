@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-list v-if="cart.length > 0" dense>
-    <CartItem v-for="(item, index) in cart" :key="index" :item="item" />
+      <CartItem v-for="(item, index) in cart" :key="index" :item="item" />
   </v-list>
   <div v-else class="text-center">
     Wow, such empty...
@@ -28,3 +28,4 @@ export default {
   }
 }
 </script>
+

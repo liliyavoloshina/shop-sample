@@ -4,7 +4,7 @@ export const mutationTypes = {
   ADD_TO_CART: 'ADD_TO_CART',
   SET_CART: 'SET_CART',
   UPDATE_QUANTITY: 'UPDATE_QUANTITY',
-  REMOVE_FROM_CART: 'REMOVE_FROM_CART',
+  REMOVE_FROM_CART: 'REMOVE_FROM_CART'
 }
 export const actionTypes = {
   addToCart: 'addToCart',
@@ -29,7 +29,7 @@ const mutations = {
     )
   },
   [mutationTypes.REMOVE_FROM_CART](state, payload) {
-    const removingItem = state.cart.find(item => item.id == payload.id)
+    const removingItem = state.cart.find((item) => item.id == payload.id)
     const index = state.cart.indexOf(removingItem)
     if (index > -1) {
       state.cart.splice(index, 1)
@@ -140,7 +140,7 @@ const actions = {
 
 const getters = {
   isInCart: (state) => (id) => {
-    return state.cart.find((item) => item.id == id)
+    return state.cart.find((item) => item.id == id) ? true : false
   }
 }
 

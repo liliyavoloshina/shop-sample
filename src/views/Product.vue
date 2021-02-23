@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     ...mapState({
-      product: state => state.products.product
+      product: (state) => state.products.product
     })
   },
   created() {
