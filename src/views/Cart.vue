@@ -1,11 +1,17 @@
 <template>
-  <v-list dense>
+<div>
+  <v-list v-if="cart.length > 0" dense>
     <CartItem v-for="(item, index) in cart" :key="index" :item="item" />
   </v-list>
+  <div v-else class="text-center">
+    Wow, such empty...
+  </div>
+</div>
+  
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import CartItem from '@/components/cart/CartItem'
 export default {
   name: 'Cart',
@@ -14,7 +20,7 @@ export default {
   },
   computed: {
     ...mapState({
-      cart: state => state.cart.cart
+      cart: (state) => state.cart.cart
     })
   },
   created() {

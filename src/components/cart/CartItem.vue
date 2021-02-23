@@ -7,11 +7,11 @@
 
     <v-list-item-subtitle></v-list-item-subtitle>
 
-    <v-btn icon color="pink">
+    <v-btn @click="decreaseQuantity(item)" icon color="pink">
       <v-icon>mdi-minus</v-icon>
     </v-btn>
     <div>{{item.count}}</div>
-    <v-btn @click="addMore(item)" icon color="pink">
+    <v-btn @click="increaseQuantity(item)" icon color="pink">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </v-list-item>
@@ -27,8 +27,11 @@ export default {
     }
   },
   methods: {
-    addMore(product) {
+    increaseQuantity(product) {
       this.$store.dispatch('addToCart', product)
+    },
+    decreaseQuantity(product) {
+      this.$store.dispatch('removeFromCart', product)
     }
   }
 }

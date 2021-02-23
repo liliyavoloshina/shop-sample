@@ -16,20 +16,41 @@
       <v-card-actions class="pa-4">
         <span class="font-weight-bold">{{ product.price }}</span>
         <v-spacer></v-spacer>
-        <div v-if="isInCart">In cart</div>
-        <v-btn v-else @click="addToCart(product)">Add to cart</v-btn>
+        <v-btn
+          v-if="!isInCart"
+          @click="addToCart(product)"
+          :disabled="addingToCart"
+        >
+          <span>Add To Cart</span>
+          <LoaderSpinner v-if="addingToCart" :size="20" :width="2" />
+        </v-btn>
+
+        <span v-else>In Cart!</span>
       </v-card-actions>
     </v-card>
+    <SnackbarAddToCart :openSnackbar="openSnackbar" :product="product" />
   </v-col>
 </template>
 
 <script>
+import LoaderSpinner from '@/components/UI/LoaderSpinner'
+import SnackbarAddToCart from '@/components/UI/SnackbarAddToCart'
 export default {
   name: 'ProductCard',
   props: {
     product: {
       required: true,
       type: Object
+    }
+  },
+  components: {
+    LoaderSpinner,
+    SnackbarAddToCart
+  },
+  data() {
+    return {
+      addingToCart: false,
+      openSnackbar: false
     }
   },
   computed: {
@@ -39,7 +60,14 @@ export default {
   },
   methods: {
     addToCart(product) {
-      this.$store.dispatch('addToCart', product)
+      this.addingToCart = true
+      this.$store.dispatch('addToCart', product).then(() => {
+        this.addingToCart = false
+        this.openSnackbar = true
+        setTimeout(() => {
+          this.openSnackbar = false
+        }, 3000)
+      })
     }
   }
 }
