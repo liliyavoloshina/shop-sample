@@ -11,6 +11,7 @@
             chips
             label="Sort by category:"
             multiple
+            @click="sortByCategory('Item 1')"
           ></v-select>
         </v-col>
         <v-col cols="12">

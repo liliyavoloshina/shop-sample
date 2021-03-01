@@ -20,7 +20,7 @@ const state = {
 }
 
 const mutations = {
-  [mutationTypes.SET_PRODUCTS](state, {products, categories}) {
+  [mutationTypes.SET_PRODUCTS](state, { products, categories }) {
     state.products = products
     state.categories = categories
   },
@@ -49,12 +49,14 @@ const actions = {
             product.id = key
             products.push(product)
           }
-          const categories =[]
+          const categories = []
           for (let i in products) {
             const item = products[i]
-            categories.includes(item.category) ? '' : categories.push(item.category)
+            categories.includes(item.category)
+              ? ''
+              : categories.push(item.category)
           }
-          commit(mutationTypes.SET_PRODUCTS, {products, categories})
+          commit(mutationTypes.SET_PRODUCTS, { products, categories })
           resolve()
         },
         (error) => {
@@ -112,7 +114,11 @@ const actions = {
     })
   }
 }
-const getters = {}
+const getters = {
+  getProductsByCategory: (state) => (category) => {
+    return state.products.filter((item) => item.category == category)
+  }
+}
 
 export default {
   state,
