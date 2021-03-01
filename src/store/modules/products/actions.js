@@ -62,57 +62,5 @@ export default {
       throw error
     }
     commit('REMOVE_PRODUCT', id)
-  },
-
-  async loadCategories({commit}) {
-    const response = await productApi.getCategories()
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get categories')
-      throw error
-    }
-
-    const responseData = response.data
-
-    const categories = []
-
-    for (let key in responseData) {
-      const category = {
-        id: key,
-        name: responseData[key].name,
-      }
-      categories.push(category)
-    }
-
-    commit('SET_CATEGORIES', categories)
-  },
-  async addNewCategory({ commit }, category) {
-    const newCategory = {
-      name: category.name
-    }
-
-    const response = await productApi.postNewCategory(JSON.stringify(newCategory))
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to post new category')
-      throw error
-    }
-
-    console.log(response)
-
-    newCategory.id = response.data.name
-
-    commit('ADD_NEW_CATEGORY', newCategory)
-  },
-
-  async removeCategory({commit}, id) {
-
-    const response = await productApi.deleteCategory(id)
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to delete category')
-      throw error
-    }
-    commit('REMOVE_CATEGORY', id)
-  },
+  }
 }

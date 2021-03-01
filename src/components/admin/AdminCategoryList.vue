@@ -45,7 +45,7 @@ export default {
   methods: {
     async removeCategory(id) {
       try {
-        await this.$store.dispatch('products/removeCategory', id)
+        await this.$store.dispatch('categories/removeCategory', id)
       } catch (e) {
         console.log(e)
       }

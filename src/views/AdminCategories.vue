@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     categories() {
-      return this.$store.getters['products/categories']
+      return this.$store.getters['categories/categories']
     }
   },
   created() {
@@ -38,7 +38,7 @@ export default {
     async loadCategories() {
       this.isLoading = true
       try {
-        await this.$store.dispatch('products/loadCategories')
+        await this.$store.dispatch('categories/loadCategories')
       } catch (e) {
         this.isLoading = false
         this.errors = e

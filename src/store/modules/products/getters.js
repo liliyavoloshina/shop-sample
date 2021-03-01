@@ -4,8 +4,5 @@ export default {
   },
   product: (state) => (productId) => {
     return state.products.find((item) => item.id == productId)
-  },
-  categories(state) {
-    return state.categories
-  },
+  }
 }

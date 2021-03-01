@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import products from '@/store/modules/products'
 import products from '@/store/modules/products/index'
+import categories from '@/store/modules/categories/index'
 import cart from '@/store/modules/cart'
 // import cart from '@/store/modules/cart/index'
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   getters: {},
   modules: {
     products,
-    cart
+    cart,
+    categories
   }
 })

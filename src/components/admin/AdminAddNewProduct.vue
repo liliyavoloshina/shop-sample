@@ -1,5 +1,6 @@
 <template>
   <v-card class="mt-5 pa-3">
+    {{categories}}
     <div v-if="errors">{{errors}}</div>
     <v-card-title>Add New Product</v-card-title>
     <v-card-text>
@@ -96,12 +97,14 @@ export default {
         category: '',
         discount: false
       },
-      categories: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
       loading: false,
       errors: null
     }
   },
   computed: {
+    categories() {
+      return this.$store.getters['categories/categories']
+    },
     nameErrors() {
       const errors = []
       if (!this.$v.product.name.$dirty) return errors
