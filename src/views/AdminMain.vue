@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <AdminProductList :products="products" :loading="loading" />
+        <AdminProductList :products="products" :isLoading="isLoading" />
       </v-col>
 
       <v-col>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import AdminProductList from '@/components/admin/AdminProductList'
 import AdminAddNewProduct from '@/components/admin/AdminAddNewProduct'
 export default {
@@ -24,26 +23,29 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      isLoading: false,
       errors: null
     }
   },
-   computed: {
-    ...mapState({
-      products: state => state.products.products.slice().reverse()
-    })
+  computed: {
+    products() {
+      return this.$store.getters['products/products']
+    }
+  },
+  methods: {
+    async loadProducts() {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('products/loadProducts')
+      } catch (e) {
+        this.isLoading = false
+        this.errors = e
+      }
+      this.isLoading = false
+    }
   },
   created() {
-    this.loading = true
-    this.$store
-      .dispatch('setProducts')
-      .then(() => {
-        this.loading = false
-      })
-      .catch(e => {
-        this.errors = e
-        console.log(e)
-      })
+    this.loadProducts()
   }
 }
 </script>

@@ -1,24 +1,20 @@
 <template>
   <div>
-    <v-subheader>Products</v-subheader>
+    <v-subheader>Categories</v-subheader>
     <Loader v-if="isLoading" />
-    <div v-else-if="products.length > 0">
+    <div v-else-if="categories.length > 0">
       <v-list>
         <transition-group name="list">
-          <v-list-item v-for="product in products" :key="product.id">
-            <v-list-item-avatar class="grey"
-              ><img :src="product.image"
-            /></v-list-item-avatar>
+          <v-list-item v-for="category in categories" :key="category.id">
+            <v-list-item-avatar class="grey"></v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-text="product.name"></v-list-item-title>
+              <v-list-item-title v-text="category.name"></v-list-item-title>
 
-              <v-list-item-subtitle
-                v-text="product.createdAt"
-              ></v-list-item-subtitle>
+              <v-list-item-subtitle>Products in this category: 1</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click="removeProduct(product.id)">
+              <v-btn icon @click="removeCategory(category.id)">
                 <v-icon color="red lighten-1">mdi-trash-can-outline</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -35,7 +31,7 @@ import Loader from '@/components/UI/LoaderSpinner'
 export default {
   name: 'AdminProductList',
   props: {
-    products: {
+    categories: {
       type: Array
     },
     isLoading: {
@@ -47,10 +43,10 @@ export default {
     Loader
   },
   methods: {
-    async removeProduct(id) {
+    async removeCategory(id) {
       try {
-        await this.$store.dispatch('products/removeProduct', id)
-      } catch (e){
+        await this.$store.dispatch('products/removeCategory', id)
+      } catch (e) {
         console.log(e)
       }
     }

@@ -35,18 +35,29 @@ const routes = [
     component: () => import('@/views/AdminMain'),
     meta: {
       layout: 'admin-layout'
+    },
+  },
+
+  {
+    path: '/admin-categories',
+    name: 'AdminCategories',
+    component: () => import('@/views/AdminCategories'),
+    meta: {
+      layout: 'admin-layout'
     }
   },
+
   {
     path: '/product/:id',
     name: 'Product',
+    props: true,
     component: () => import('@/views/Product')
   },
   {
     path: '/cart',
     name: 'Cart',
     component: () => import('@/views/Cart')
-  },
+  }
 ]
 
 const router = new VueRouter({

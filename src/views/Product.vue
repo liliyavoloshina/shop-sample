@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-5 mb-5">
-    <LoaderSpinner v-if="loading" />
+    <LoaderSpinner v-if="isLoading" />
     <div v-else>
       <div class="title mb-1">
         {{ product.name }}
@@ -36,29 +36,38 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import LoaderSpinner from '@/components/UI/LoaderSpinner'
 export default {
   name: 'Product',
+  props: ['id'],
   components: {
     LoaderSpinner
   },
   data() {
     return {
-      loading: false,
+      isLoading: false,
       errors: null
     }
   },
   computed: {
-    ...mapState({
-      product: (state) => state.products.product
-    })
+    product() {
+      return this.$store.getters['products/product'](this.id)
+    },
+  },
+  methods: {
+    async loadProducts() {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('products/loadProducts')
+      } catch (e) {
+        this.isLoading = false
+        this.errors = e
+      }
+      this.isLoading = false
+    }
   },
   created() {
-    this.loading = true
-    this.$store.dispatch('getProduct', this.$route.params.id).then(() => {
-      this.loading = false
-    })
+    this.loadProducts()
   }
 }
 </script>

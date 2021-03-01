@@ -1,5 +1,6 @@
 <template>
   <v-card class="mt-5 pa-3">
+    <div v-if="errors">{{errors}}</div>
     <v-card-title>Add New Product</v-card-title>
     <v-card-text>
       <form>
@@ -62,7 +63,8 @@
       </form>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="submit" block :disabled="$v.product.$invalid">Add</v-btn>
+      <v-btn @click="submit" block>Add</v-btn>
+      <!-- <v-btn @click="submit" block :disabled="$v.product.$invalid">Add</v-btn> -->
     </v-card-actions>
   </v-card>
 </template>
@@ -136,9 +138,10 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       this.$v.$touch()
-      const sendingData = JSON.stringify({
+      this.loading = true
+      const sendingData = {
         name: this.product.name,
         description: this.product.description,
         price: this.product.price,
@@ -146,24 +149,22 @@ export default {
         category: this.product.category,
         discount: this.product.discount,
         createdAt: new Date().toLocaleString()
-      })
-      this.loading = true
-      this.$store
-        .dispatch('addNewProduct', sendingData)
-        .then(() => {
-          this.loading = false
-          this.$v.$reset()
-          this.product.name = ''
-          this.product.description = ''
-          this.product.price = ''
-          this.product.image = ''
-          this.product.category = ''
-          this.product.discount = false
-        })
-        .catch((e) => {
-          this.errors = e
-          console.log(e)
-        })
+      }
+      try {
+        await this.$store.dispatch('products/addNewProduct', sendingData)
+      } catch (e) {
+        this.loading = false
+        this.errors = e
+        console.log(e)
+      }
+      this.loading = false
+      this.$v.$reset()
+      this.product.name = ''
+      this.product.description = ''
+      this.product.price = ''
+      this.product.image = ''
+      this.product.category = ''
+      this.product.discount = false
     }
   }
 }

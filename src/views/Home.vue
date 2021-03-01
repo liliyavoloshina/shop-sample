@@ -1,62 +1,65 @@
 <template>
   <div>
-    <LoaderSpinner v-if="loading" />
+    <LoaderSpinner v-if="isLoading" />
     <v-row>
-      <v-col
-        v-for="product in products"
-        :key="product.id"
-        cols="12"
-        lg="3"
-        md="4"
-        sm="6"
-      >
-        <Product :product="product" />
+      <v-col md="3" cols="12">
+        <Sidebar @change-filter="setFilters" />
+      </v-col>
+      <v-col md="9" cols="12">
+        <v-row>
+          <v-col
+            v-for="product in products"
+            :key="product.id"
+            lg="4"
+            md="6"
+            sm="6"
+            cols="12"
+          >
+            <Product :product="product" />
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
+    <div v-if="!products.length > 0">No products</div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import Product from '@/components/product/ProductCard'
 import LoaderSpinner from '@/components/UI/LoaderSpinner'
+import Sidebar from '@/components/UI/TheSidebar'
 export default {
   name: 'Home',
   components: {
     Product,
-    LoaderSpinner
+    LoaderSpinner,
+    Sidebar
   },
   data() {
     return {
-      loading: true,
+      isLoading: false,
       errors: null
     }
   },
   computed: {
-    ...mapState({
-      products: (state) => state.products.products
-    })
+    products() {
+      return this.$store.getters['products/products']
+    }
+  },
+  methods: {
+    async loadProducts() {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('products/loadProducts')
+      } catch (e) {
+        this.isLoading = false
+        this.errors = e
+      }
+      this.isLoading = false
+    }
   },
   created() {
-    this.loading = true
-    this.$store
-      .dispatch('setProducts')
-      .then(() => {
-        this.loading = false
-      })
-      .catch((e) => {
-        this.errors = e
-        console.log(e)
-      })
-    this.$store
-      .dispatch('setCart')
-      .then(() => {
-        this.loading = false
-      })
-      .catch((e) => {
-        this.errors = e
-        console.log(e)
-      })
+    this.loadProducts()
   }
 }
 </script>
