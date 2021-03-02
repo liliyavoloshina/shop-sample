@@ -55,6 +55,7 @@ export default {
       } catch (e) {
         console.log(e)
       }
+      this.newCategory.name = ''
     }
   }
 }

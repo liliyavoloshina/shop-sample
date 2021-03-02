@@ -18,7 +18,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click="removeProduct(product.id)">
+              <v-btn icon @click="removeProduct(product)">
                 <v-icon color="red lighten-1">mdi-trash-can-outline</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -47,9 +47,10 @@ export default {
     Loader
   },
   methods: {
-    async removeProduct(id) {
+    async removeProduct(product) {
       try {
-        await this.$store.dispatch('products/removeProduct', id)
+        await this.$store.dispatch('products/removeProduct', product.id)
+        await this.$store.dispatch('categories/decreaseCategoryCount', product.category)
       } catch (e){
         console.log(e)
       }

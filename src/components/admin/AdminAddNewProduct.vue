@@ -1,7 +1,6 @@
 <template>
   <v-card class="mt-5 pa-3">
-    {{categories}}
-    <div v-if="errors">{{errors}}</div>
+    <div v-if="errors">{{ errors }}</div>
     <v-card-title>Add New Product</v-card-title>
     <v-card-text>
       <form>
@@ -32,6 +31,8 @@
         <v-select
           v-model="product.category"
           :items="categories"
+          item-text="name"
+          item-value="id"
           :error-messages="categoryErrors"
           label="Category"
           required
@@ -155,6 +156,7 @@ export default {
       }
       try {
         await this.$store.dispatch('products/addNewProduct', sendingData)
+        await this.$store.dispatch('categories/increaseCategoryCount', sendingData.category)
       } catch (e) {
         this.loading = false
         this.errors = e

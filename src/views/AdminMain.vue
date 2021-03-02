@@ -6,7 +6,7 @@
       </v-col>
 
       <v-col>
-        <AdminAddNewProduct />
+        <AdminAddNewProduct :categories="categories" />
       </v-col>
     </v-row>
   </v-container>
@@ -30,7 +30,14 @@ export default {
   computed: {
     products() {
       return this.$store.getters['products/products']
+    },
+    categories() {
+      return this.$store.getters['categories/categories']
     }
+  },
+  created() {
+    this.loadProducts()
+    this.loadCategories()
   },
   methods: {
     async loadProducts() {
@@ -42,10 +49,18 @@ export default {
         this.errors = e
       }
       this.isLoading = false
+    },
+    async loadCategories() {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('categories/loadCategories')
+      } catch (e) {
+        this.isLoading = false
+        this.errors = e
+        console.log(e)
+      }
+      this.isLoading = false
     }
-  },
-  created() {
-    this.loadProducts()
   }
 }
 </script>

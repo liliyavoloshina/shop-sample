@@ -10,11 +10,11 @@
             <v-list-item-content>
               <v-list-item-title v-text="category.name"></v-list-item-title>
 
-              <v-list-item-subtitle>Products in this category: 1</v-list-item-subtitle>
+              <v-list-item-subtitle>Products in this category: {{category.count}}</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click="removeCategory(category.id)">
+              <v-btn v-if="category.count == 0" @click="removeCategory(category.id)" icon>
                 <v-icon color="red lighten-1">mdi-trash-can-outline</v-icon>
               </v-btn>
             </v-list-item-action>

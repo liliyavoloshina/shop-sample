@@ -12,4 +12,16 @@ export default {
       state.categories.splice(index, 1)
     }
   },
+  INCREASE_CATEGORY_COUNT(state, payload) {
+    const updatedData = state.categories.map(item =>
+      item.id === payload ? { ...item, count: item.count + 1 } : item
+    )
+    state.categories = updatedData
+  },
+  DECREASE_CATEGORY_COUNT(state, payload) {
+    const updatedData = state.categories.map(item =>
+      item.id === payload ? { ...item, count: item.count - 1 } : item
+    )
+    state.categories = updatedData
+  }
 }
