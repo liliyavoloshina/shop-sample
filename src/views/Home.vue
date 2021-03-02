@@ -3,9 +3,11 @@
     <LoaderSpinner v-if="isLoading" />
     <v-row>
       <v-col md="3" cols="12">
-        <Sidebar @change-category="setCategory" :activeCategories="activeCategories" />
+        <Sidebar
+          :activeCategories="activeCategories"
+          @change-category="setCategory"
+        />
       </v-col>
-      {{activeCategory}}
       <v-col md="9" cols="12">
         <v-row>
           <v-col
@@ -38,9 +40,9 @@ export default {
   },
   data() {
     return {
-      activeCategory: [],
       isLoading: false,
-      errors: null
+      errors: null,
+      selected: []
     }
   },
   computed: {
@@ -49,7 +51,23 @@ export default {
     },
     activeCategories() {
       return this.$store.getters['categories/activeCategories']
+    },
+    filteredProducts() {
+      const products = this.$store.getters['products/products']
+      return products.filter((product) => {
+        for (let key in this.selected) {
+          let id = this.selected[key]
+          if (product.category.includes(id)) {
+            return true
+          }
+          return false
+        }
+      })
     }
+  },
+  created() {
+    this.loadProducts()
+    this.loadCategories()
   },
   methods: {
     async loadProducts() {
@@ -74,12 +92,8 @@ export default {
       this.isLoading = false
     },
     setCategory(selected) {
-      this.activeCategory = selected
-    },
-  },
-  created() {
-    this.loadProducts()
-    this.loadCategories()
+      this.selected = selected
+    }
   }
 }
 </script>
