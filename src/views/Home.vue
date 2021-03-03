@@ -3,15 +3,13 @@
     <LoaderSpinner v-if="isLoading" />
     <v-row>
       <v-col md="3" cols="12">
-        <Sidebar
-          :activeCategories="activeCategories"
-          @change-category="setCategory"
-        />
+        <Sidebar :activeCategories="activeCategories" />
       </v-col>
+
       <v-col md="9" cols="12">
         <v-row>
           <v-col
-            v-for="product in products"
+            v-for="product in filteredProducts"
             :key="product.id"
             lg="4"
             md="6"
@@ -42,7 +40,9 @@ export default {
     return {
       isLoading: false,
       errors: null,
-      selected: []
+      filters: {
+        category: (category) => this.selectedCategories.includes(category)
+      }
     }
   },
   computed: {
@@ -52,16 +52,21 @@ export default {
     activeCategories() {
       return this.$store.getters['categories/activeCategories']
     },
+    selectedCategories() {
+      return this.$store.getters['categories/selectedCategories']
+    },
     filteredProducts() {
       const products = this.$store.getters['products/products']
-      return products.filter((product) => {
-        for (let key in this.selected) {
-          let id = this.selected[key]
-          if (product.category.includes(id)) {
-            return true
-          }
-          return false
-        }
+      const filters = this.filters
+
+      const filterKeys = Object.keys(filters)
+      return products.filter((item) => {
+        // validates all filter criteria
+        return filterKeys.every((key) => {
+          // ignores non-function predicates
+          if (typeof filters[key] !== 'function') return true
+          return filters[key](item[key])
+        })
       })
     }
   },
@@ -85,14 +90,10 @@ export default {
       try {
         await this.$store.dispatch('categories/loadCategories')
       } catch (e) {
-        this.isLoading = false
         this.errors = e
         console.log(e)
       }
       this.isLoading = false
-    },
-    setCategory(selected) {
-      this.selected = selected
     }
   }
 }

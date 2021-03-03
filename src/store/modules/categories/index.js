@@ -7,7 +7,7 @@ export default {
   state() {
     return {
       categories: [],
-      categorySelected: ['all']
+      selectedCategories: []
     }
   },
   mutations,

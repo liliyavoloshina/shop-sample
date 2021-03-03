@@ -61,5 +61,9 @@ export default {
   async decreaseCategoryCount({commit}, categoryId) {
     await categoryApi.patchCategory(categoryId, 'decrease')
     commit('DECREASE_CATEGORY_COUNT', categoryId)
+  },
+  
+  changeFilterByCategory({commit}, category) {
+    commit('CHANGE_FILTER_CATEGORY', category)
   }
 }
