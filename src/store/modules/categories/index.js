@@ -7,7 +7,10 @@ export default {
   state() {
     return {
       categories: [],
-      selectedCategories: []
+      selectedCategories: [],
+      selectedDiscount: false,
+      selectedPrice: [],
+      initialRangeValue: []
     }
   },
   mutations,

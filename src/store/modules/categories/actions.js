@@ -62,8 +62,14 @@ export default {
     await categoryApi.patchCategory(categoryId, 'decrease')
     commit('DECREASE_CATEGORY_COUNT', categoryId)
   },
-  
+
   changeFilterByCategory({commit}, category) {
     commit('CHANGE_FILTER_CATEGORY', category)
+  },
+  changeFilterByDiscount({commit}) {
+    commit('CHANGE_FILTER_DISCOUNT')
+  },
+  changeFilterByPrice({commit}, range) {
+    commit('CHANGE_FILTER_BY_PRICE', range)
   }
 }

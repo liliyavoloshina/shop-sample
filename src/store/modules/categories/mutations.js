@@ -30,14 +30,18 @@ export default {
     state.categories = updatedData
   },
   CHANGE_FILTER_CATEGORY(state, payload) {
-    const category = state.selectedCategories.find(
-      (item) => item === payload
-    )
+    const category = state.selectedCategories.find((item) => item === payload)
     const index = state.selectedCategories.indexOf(category)
     if (index !== -1) {
       state.selectedCategories.splice(index, 1)
     } else {
       state.selectedCategories.push(payload)
     }
+  },
+  CHANGE_FILTER_DISCOUNT(state) {
+    state.selectedDiscount = !state.selectedDiscount
+  },
+  CHANGE_FILTER_BY_PRICE(state, payload) {
+    state.selectedPrice = payload
   }
 }

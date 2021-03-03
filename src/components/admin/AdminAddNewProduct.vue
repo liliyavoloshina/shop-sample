@@ -43,7 +43,7 @@
         <v-row>
           <v-col>
             <v-text-field
-              v-model="product.price"
+              v-model.number="product.price"
               :error-messages="priceErrors"
               label="Price"
               required

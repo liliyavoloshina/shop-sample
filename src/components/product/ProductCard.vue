@@ -6,6 +6,8 @@
       custom
     >
       <div @click="navigate">
+        <!-- <v-chip v-if="product.discount" color="yellow" label>Sale!</v-chip> -->
+        <div v-if="product.discount" class="sale-badge">Sale!</div>
         <v-card-title>{{ product.name }}</v-card-title>
         <v-img v-if="product.image" height="250" :src="product.image"></v-img>
         <v-img v-else height="250" class="deep-purple lighten-5"></v-img>
@@ -68,3 +70,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.sale-badge {
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 30px;
+  background-color: rgb(250, 228, 35);
+  text-align: center;
+  border-radius: 10px;
+  line-height: 30px;
+}
+</style>
