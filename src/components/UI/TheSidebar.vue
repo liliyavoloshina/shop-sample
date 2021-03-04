@@ -30,37 +30,18 @@
             :label="`With discount`"
           ></v-switch
         ></v-col>
-        {{maxProductsPrice}}
-        {{ minProductsPrice }}
-
-        {{range}}
         <v-col cols="12" sm="12" md="12">
           <v-range-slider
             v-model="range"
             :max="maxProductsPrice"
             :min="minProductsPrice"
+            :thumb-size="24"
+            @change="changeFilterByPrice"
             hide-details
             class="align-center"
-            @change="changeFilterByPrice"
-          >
-            <template v-slot:prepend>
-              <v-text-field
-                :value="range[0]"
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="number"
-                style="width: 50px"
-              ></v-text-field>
-            </template>
-            <template v-slot:append>
-              <v-text-field
-                :value="range[1]"
-                single-line
-                type="number"
-                style="width: 50px"
-              ></v-text-field>
-            </template> </v-range-slider
+            thumb-color="primary"
+            thumb-label="always"
+          ></v-range-slider
         ></v-col>
       </v-row>
     </v-card-actions>
@@ -76,7 +57,6 @@ export default {
       range: [this.minProductsPrice, this.maxProductsPrice]
     }
   },
-
   computed: {
     maxProductsPrice() {
       return this.$store.getters['products/maxProductsPrice']

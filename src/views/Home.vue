@@ -8,7 +8,6 @@
         <LoaderSpinner v-if="isLoading" />
         <div v-else-if="!filteredProducts.length > 0">No products</div>
         <v-row>
-          {{ selectedPrice }}
           <v-col
             v-for="product in filteredProducts"
             :key="product.id"
