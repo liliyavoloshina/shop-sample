@@ -50,7 +50,7 @@ export default {
     async removeProduct(product) {
       try {
         await this.$store.dispatch('products/removeProduct', product.id)
-        await this.$store.dispatch('categories/decreaseCategoryCount', product.category)
+        await this.$store.dispatch('filters/decreaseCategoryCount', product.category)
       } catch (e){
         console.log(e)
       }

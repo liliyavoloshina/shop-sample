@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     categories() {
-      return this.$store.getters['categories/categories']
+      return this.$store.getters['filters/categories']
     },
     nameErrors() {
       const errors = []
@@ -156,7 +156,7 @@ export default {
       }
       try {
         await this.$store.dispatch('products/addNewProduct', sendingData)
-        await this.$store.dispatch('categories/increaseCategoryCount', sendingData.category)
+        await this.$store.dispatch('filters/increaseCategoryCount', sendingData.category)
       } catch (e) {
         this.loading = false
         this.errors = e

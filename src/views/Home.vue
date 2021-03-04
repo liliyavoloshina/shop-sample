@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col md="3" cols="12">
-        <Sidebar :activeCategories="activeCategories" />
+        <Sidebar :active-categories="activeCategories" />
       </v-col>
       <v-col md="9" cols="12">
         <LoaderSpinner v-if="isLoading" />
@@ -44,26 +44,26 @@ export default {
         discount: (discount) =>
           discount == this.selectedDiscount ? [] : !this.selectedDiscount,
 
-        price: price => (price >= this.selectedPrice[0] && price <= this.selectedPrice[1])
+        price: (price) =>
+          price >= this.selectedPrice[0] && price <= this.selectedPrice[1]
       }
     }
   },
   computed: {
     activeCategories() {
-      return this.$store.getters['categories/activeCategories']
+      return this.$store.getters['filters/activeCategories']
     },
     selectedCategories() {
-      return this.$store.getters['categories/selectedCategories']
+      return this.$store.getters['filters/selectedCategories']
     },
     selectedDiscount() {
-      return this.$store.getters['categories/selectedDiscount']
+      return this.$store.getters['filters/selectedDiscount']
     },
     selectedPrice() {
-      return this.$store.getters['categories/selectedPrice']
+      return this.$store.getters['filters/selectedPrice']
     },
-
     initialRangeValue() {
-      return this.$store.getters['categories/initialRangeValue']
+      return this.$store.getters['filters/initialRangeValue']
     },
     filteredProducts() {
       const products = this.$store.getters['products/products']
@@ -97,7 +97,7 @@ export default {
     async loadCategories() {
       this.isLoading = true
       try {
-        await this.$store.dispatch('categories/loadCategories')
+        await this.$store.dispatch('filters/loadCategories')
       } catch (e) {
         this.errors = e
         console.log(e)

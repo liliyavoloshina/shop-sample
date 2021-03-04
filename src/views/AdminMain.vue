@@ -32,7 +32,7 @@ export default {
       return this.$store.getters['products/products']
     },
     categories() {
-      return this.$store.getters['categories/categories']
+      return this.$store.getters['filters/categories']
     }
   },
   created() {
@@ -53,7 +53,7 @@ export default {
     async loadCategories() {
       this.isLoading = true
       try {
-        await this.$store.dispatch('categories/loadCategories')
+        await this.$store.dispatch('filters/loadCategories')
       } catch (e) {
         this.isLoading = false
         this.errors = e

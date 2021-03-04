@@ -51,7 +51,7 @@ export default {
   methods: {
     async addNewCategory() {
       try {
-        await this.$store.dispatch('categories/addNewCategory', this.newCategory)
+        await this.$store.dispatch('filters/addNewCategory', this.newCategory)
       } catch (e) {
         console.log(e)
       }

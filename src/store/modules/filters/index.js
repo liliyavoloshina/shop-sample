@@ -1,6 +1,6 @@
-import mutations from '@/store/modules/categories/mutations'
-import actions from '@/store/modules/categories/actions'
-import getters from '@/store/modules/categories/getters'
+import mutations from '@/store/modules/filters/mutations'
+import actions from '@/store/modules/filters/actions'
+import getters from '@/store/modules/filters/getters'
 
 export default {
   namespaced: true,

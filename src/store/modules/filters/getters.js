@@ -18,9 +18,17 @@ export default {
       return getters.initialRangeValue
     }
   },
-  initialRangeValue(state, _, _2, rootGetters){
-    const min = rootGetters['products/minProductsPrice']
-    const max = rootGetters['products/maxProductsPrice']
+  minProductsPrice(_, _2, _3, rootGetters){
+    const products = rootGetters['products/products']
+    return Math.min(...products.map((item) => item.price), null)
+  },
+  maxProductsPrice(_, _2, _3, rootGetters){
+    const products = rootGetters['products/products']
+    return Math.max(...products.map((item) => item.price), null)
+  },
+  initialRangeValue(state, getters){
+    const min = getters.minProductsPrice
+    const max = getters.maxProductsPrice
     return state.initialRangeValue = [min, max]
   }
 }
