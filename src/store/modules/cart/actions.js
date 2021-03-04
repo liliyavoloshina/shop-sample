@@ -23,43 +23,47 @@ export default {
         price: responseData[key].price,
         image: responseData[key].image,
         category: responseData[key].category,
+        count: responseData[key].count,
         discount: responseData[key].discount,
         createdAt: responseData[key].createdAt
       }
-      item.count = 1
       items.push(item)
     }
 
     context.commit('SET_CART', items)
   },
   async addToCart(context, product) {
+    const newProduct = {...product}
+    newProduct.count = 1
+
     const userId = context.rootGetters.userId
-    const response = await cartApi.postToCart(userId, product)
+    const response = await cartApi.postToCart(userId, newProduct)
 
     if (!response.status == 200) {
       const error = new Error(response.message || 'Failed to get products')
       throw error
     }
-    context.commit('ADD_TO_CART', product)
+    context.commit('ADD_TO_CART', newProduct)
   },
   async increaseQuantity(context, product) {
     const userId = context.rootGetters.userId
-    const response = await cartApi.postToCart(userId, product)
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get products')
-      throw error
-    }
-    context.commit('INCREASE_QUANTITY', product)
+    const productId = product.id
+    const newCount =  product.count + 1
+    console.log(newCount)
+    await cartApi.patchQuantity(userId, productId, newCount)
+    context.commit('UPDATE_QUANTITY', {product, newCount})
   },
   async decreaseQuantity(context, product) {
     const userId = context.rootGetters.userId
-    const response = await cartApi.postToCart(userId, product)
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get products')
-      throw error
-    }
-    context.commit('DECREASE_QUANTITY', product)
+    const productId = product.id
+    const newCount =  product.count - 1
+    await cartApi.patchQuantity(userId, productId, newCount)
+    context.commit('UPDATE_QUANTITY', {product, newCount})
   },
+  async deleteItem(context, product) {
+    const userId = context.rootGetters.userId
+    const productId = product.id
+    await cartApi.deleteItemFromCart(userId, productId)
+    context.commit('REMOVE_FROM_CART', product)
+  }
 }

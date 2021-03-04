@@ -8,50 +8,29 @@ const postToCart = (userId, product) => {
   return axios.post(`/users/${userId}/cart.json`, product)
 }
 
-const removeFromCart = (id) => {
+const patchQuantity = (userId, productId, newCount) => {
   return axios
-    .get(`/cart.json?orderBy="id"&equalTo="${id}"`)
+    .get(`/users/${userId}/cart.json?orderBy="id"&equalTo="${productId}"`)
     .then((response) => {
       let key = Object.keys(response.data)[0]
-      axios.delete(`/cart/${key}.json`)
-    })
-}
-
-const addQuantity = (product) => {
-  return axios
-    .get(`/cart.json?orderBy="id"&equalTo="${product.id}"`)
-    .then((response) => {
-      let key = Object.keys(response.data)[0]
-      return axios.patch(`/cart/${key}.json`, { count: 1 }).then(() => {
-        return axios.get(`/cart.json?orderBy="id"&equalTo="${product.id}"`)
-      })
-    })
-}
-
-const updateQuantity = (product, quantity) => {
-  return axios
-    .get(`/cart.json?orderBy="id"&equalTo="${product.id}"`)
-    .then((response) => {
-      let key = Object.keys(response.data)[0]
-      let newCount
-      if (quantity == 'increase') {
-        newCount = Number(Object.values(response.data)[0].count + 1)
-      } else {
-        newCount = Number(Object.values(response.data)[0].count - 1)
-      }
-      let newCounter = {
+      return axios.patch(`/users/${userId}/cart/${key}.json`, {
         count: newCount
-      }
-      return axios.patch(`/cart/${key}.json`, JSON.stringify(newCounter)).then(() => {
-        return axios.get(`/cart.json?orderBy="id"&equalTo="${product.id}"`)
       })
+    })
+}
+
+const deleteItemFromCart = (userId, productId) => {
+  return axios
+    .get(`/users/${userId}/cart.json?orderBy="id"&equalTo="${productId}"`)
+    .then((response) => {
+      let key = Object.keys(response.data)[0]
+      axios.delete(`/users/${userId}/cart/${key}.json`)
     })
 }
 
 export default {
   postToCart,
-  removeFromCart,
+  deleteItemFromCart,
   getCart,
-  addQuantity,
-  updateQuantity
+  patchQuantity
 }

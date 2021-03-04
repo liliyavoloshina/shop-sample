@@ -9,8 +9,11 @@
 
     <v-list-item-subtitle></v-list-item-subtitle>
 
-    <v-btn @click="decreaseQuantity(item)" icon color="pink">
+    <v-btn v-if="item.count > 1" @click="decreaseQuantity(item)" icon color="pink">
       <v-icon>mdi-minus</v-icon>
+    </v-btn>
+    <v-btn v-else @click="deleteItem(item)" icon color="red">
+      <v-icon>mdi-delete</v-icon>
     </v-btn>
     <div>{{ item.count }}</div>
     <v-btn @click="increaseQuantity(item)" icon color="pink">
@@ -33,14 +36,21 @@ export default {
       try {
         await this.$store.dispatch('cart/increaseQuantity', product)
       } catch (e) {
-        this.errors = e
+        console.log(e)
       }
     },
     async decreaseQuantity(product) {
       try {
         await this.$store.dispatch('cart/decreaseQuantity', product)
       } catch (e) {
-        this.errors = e
+        console.log(e)
+      }
+    },
+    async deleteItem(product) {
+      try {
+        await this.$store.dispatch('cart/deleteItem', product)
+      } catch (e) {
+        console.log(e)
       }
     }
   }
