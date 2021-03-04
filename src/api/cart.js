@@ -1,11 +1,11 @@
 import axios from '@/api/axios'
 
-const getCart = () => {
-  return axios.get('/cart.json')
+const getCart = (userId) => {
+  return axios.get(`/users/${userId}/cart.json`)
 }
 
-const addToCart = (product) => {
-  return axios.post('/cart.json', product)
+const postToCart = (userId, product) => {
+  return axios.post(`/users/${userId}/cart.json`, product)
 }
 
 const removeFromCart = (id) => {
@@ -49,7 +49,7 @@ const updateQuantity = (product, quantity) => {
 }
 
 export default {
-  addToCart,
+  postToCart,
   removeFromCart,
   getCart,
   addQuantity,

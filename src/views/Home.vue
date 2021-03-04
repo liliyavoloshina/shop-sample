@@ -43,7 +43,6 @@ export default {
         category: (category) => this.selectedCategories.includes(category),
         discount: (discount) =>
           discount == this.selectedDiscount ? [] : !this.selectedDiscount,
-
         price: (price) =>
           price >= this.selectedPrice[0] && price <= this.selectedPrice[1]
       }
@@ -62,9 +61,6 @@ export default {
     selectedPrice() {
       return this.$store.getters['filters/selectedPrice']
     },
-    initialRangeValue() {
-      return this.$store.getters['filters/initialRangeValue']
-    },
     filteredProducts() {
       const products = this.$store.getters['products/products']
       const filters = this.filters
@@ -82,6 +78,7 @@ export default {
   created() {
     this.loadProducts()
     this.loadCategories()
+    this.loadCart()
   },
   methods: {
     async loadProducts() {
@@ -101,6 +98,16 @@ export default {
       } catch (e) {
         this.errors = e
         console.log(e)
+      }
+      this.isLoading = false
+    },
+    async loadCart() {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('cart/loadCart')
+      } catch (e) {
+        this.isLoading = false
+        this.errors = e
       }
       this.isLoading = false
     }

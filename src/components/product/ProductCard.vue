@@ -6,7 +6,6 @@
       custom
     >
       <div @click="navigate">
-        <!-- <v-chip v-if="product.discount" color="yellow" label>Sale!</v-chip> -->
         <div v-if="product.discount" class="sale-badge">Sale!</div>
         <v-card-title>{{ product.name }}</v-card-title>
         <v-img v-if="product.image" height="250" :src="product.image"></v-img>
@@ -51,21 +50,24 @@ export default {
   },
   computed: {
     isInCart() {
-      return this.$store.getters.isInCart(this.product.id)
+      return this.$store.getters['cart/isInCart'](this.product.id)
     }
   },
   methods: {
-    addToCart(product) {
+    async addToCart(product) {
       this.addingToCart = true
       this.disabled = true
-      this.$store.dispatch('addToCart', product).then(() => {
-        setTimeout(() => {
-          this.openSnackbar = true
-        }, 1000)
-      })
+      try {
+        await this.$store.dispatch('cart/addToCart', product)
+      } catch (e) {
+        console.log(e)
+      }
+      this.addingToCart = false
+      this.disabled = false
+      this.openSnackbar = true
       setTimeout(() => {
         this.openSnackbar = false
-      }, 1000)
+      }, 2000)
     }
   }
 }
