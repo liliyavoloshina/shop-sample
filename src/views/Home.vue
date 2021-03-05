@@ -5,8 +5,8 @@
         <Sidebar :active-categories="activeCategories" />
       </v-col>
       <v-col md="9" cols="12">
-        <LoaderSpinner v-if="isLoading" />
-        <div v-else-if="!filteredProducts.length > 0">No products</div>
+        <div v-if="!isLoading && !filteredProducts.length > 0">No products</div>
+        <SkeletonLoader v-if="isLoading" :isHome="true" />
         <v-row>
           <v-col
             v-for="product in filteredProducts"
@@ -26,13 +26,13 @@
 
 <script>
 import Product from '@/components/product/ProductCard'
-import LoaderSpinner from '@/components/UI/LoaderSpinner'
+import SkeletonLoader from '@/components/UI/SkeletonLoader'
 import Sidebar from '@/components/UI/TheSidebar'
 export default {
   name: 'Home',
   components: {
     Product,
-    LoaderSpinner,
+    SkeletonLoader,
     Sidebar
   },
   data() {
@@ -86,7 +86,6 @@ export default {
       try {
         await this.$store.dispatch('products/loadProducts')
       } catch (e) {
-        this.isLoading = false
         this.errors = e
       }
       this.isLoading = false
@@ -97,9 +96,9 @@ export default {
         await this.$store.dispatch('filters/loadCategories')
       } catch (e) {
         this.errors = e
+        this.isLoading = false
         console.log(e)
       }
-      this.isLoading = false
     },
     async loadCart() {
       this.isLoading = true

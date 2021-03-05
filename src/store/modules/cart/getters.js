@@ -4,5 +4,8 @@ export default {
   },
   isInCart: (state) => (id) => {
     return state.cart.find((item) => item.id == id) ? true : false
+  },
+  total(state) {
+    return state.cart.length
   }
 }
