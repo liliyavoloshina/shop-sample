@@ -12,28 +12,38 @@ export default {
       const userData = {
         username: payload.name
       }
-
       const response = await authApi.auth(authData)
-      const responseData = await response.data
-      console.log(response)
-      if (!response.status < 200) {
+
+      if (response.error) {
         const error = new Error(
-          responseData.error.message || 'Failed to authenticate'
+          (response.error.message == 'EMAIL_EXISTS'
+            ? 'This e-mail is already in use'
+            : 'Failed to authenticate') || 'Failed to authenticate'
         )
-        console.log(error)
         throw error
       }
 
+      localStorage.setItem('token', response.idToken)
+      localStorage.setItem('userId', response.localId)
+
       const dataToStore = {
-        userId: responseData.localId,
-        token: responseData.idToken,
+        userId: response.localId,
+        token: response.idToken,
         username: userData.username
       }
 
-      localStorage.setItem('token', responseData.idToken)
-      localStorage.setItem('userId', responseData.localId)
-
       commit('SET_USER', dataToStore)
+    }
+  },
+  checkLogin({ commit }) {
+    const token = localStorage.getItem('token')
+    const userId = localStorage.getItem('userId')
+
+    if (token && userId) {
+      commit('SET_USER', {
+        token: token,
+        userId: userId
+      })
     }
   }
 }

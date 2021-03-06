@@ -12,6 +12,9 @@ export default {
     layout() {
       return this.$route.meta.layout || 'default-layout'
     }
+  },
+  created() {
+    this.$store.dispatch('auth/checkLogin')
   }
 }
 </script>

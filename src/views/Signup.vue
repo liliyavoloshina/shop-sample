@@ -46,6 +46,7 @@
       </v-card-text>
       <v-spacer></v-spacer>
       <v-card-actions class="mt-4">
+        {{ error }}
         <v-row>
           <v-col cols="12" align="center">
             <v-btn @click="submit" class="text-center">
@@ -92,7 +93,8 @@ export default {
       email: '',
       password: '',
       repeatPassword: '',
-      checkbox: false
+      checkbox: false,
+      error: null
     }
   },
 
@@ -148,9 +150,9 @@ export default {
           checkbox: this.checkbox,
           mode: 'signup'
         }
-        this.$store.dispatch('auth/auth', sendingData)
+        await this.$store.dispatch('auth/auth', sendingData)
       } catch (e) {
-        console.log(e)
+        this.error = e.message
       }
       // this.$router.push({ name: 'Home' })
     },
@@ -159,6 +161,7 @@ export default {
       this.name = ''
       this.email = ''
       this.checkbox = false
+      this.error = null
     }
   }
 }
