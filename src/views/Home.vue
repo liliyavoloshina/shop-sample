@@ -2,11 +2,12 @@
   <div>
     <v-row>
       <v-col md="3" cols="12">
-        <Sidebar :active-categories="activeCategories" />
+        <SkeletonLoader v-if="isLoading" :whatElem="'CategoryList'" />
+        <Sidebar v-else :active-categories="activeCategories" />
       </v-col>
       <v-col md="9" cols="12">
         <div v-if="!isLoading && !filteredProducts.length > 0">No products</div>
-        <SkeletonLoader v-if="isLoading" :isHome="true" />
+        <SkeletonLoader v-if="isLoading" :whatElem="'ProductItemInhome'" />
         <v-row>
           <v-col
             v-for="product in filteredProducts"
