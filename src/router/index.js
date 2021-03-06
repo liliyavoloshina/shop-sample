@@ -22,9 +22,9 @@ const routes = [
     }
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('@/views/Register'),
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@/views/Signup'),
     meta: {
       layout: 'auth-layout'
     }

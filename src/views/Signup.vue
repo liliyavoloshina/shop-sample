@@ -116,13 +116,17 @@ export default {
       const errors = []
       if (!this.$v.password.$dirty) return errors
       !this.$v.password.required && errors.push('Password is required.')
-      !this.$v.password.minLength && errors.push(`Password must have at least ${this.$v.password.$params.minLength.min } letters.`)
+      !this.$v.password.minLength &&
+        errors.push(
+          `Password must have at least ${this.$v.password.$params.minLength.min} letters.`
+        )
       return errors
     },
     repeatPasswordErrors() {
       const errors = []
       if (!this.$v.repeatPassword.$dirty) return errors
-      !this.$v.repeatPassword.sameAsPassword && errors.push('Passwords must be identical.')
+      !this.$v.repeatPassword.sameAsPassword &&
+        errors.push('Passwords must be identical.')
       return errors
     },
     checkboxErrors() {
@@ -130,13 +134,25 @@ export default {
       if (!this.$v.checkbox.$dirty) return errors
       !this.$v.checkbox.checked && errors.push('You must agree to continue!')
       return errors
-    },
+    }
   },
 
   methods: {
-    submit() {
-      this.$v.$touch()
-      this.$router.push({name: 'Home'})
+    async submit() {
+      // this.$v.$touch()
+      try {
+        const sendingData = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          checkbox: this.checkbox,
+          mode: 'signup'
+        }
+        this.$store.dispatch('auth/auth', sendingData)
+      } catch (e) {
+        console.log(e)
+      }
+      // this.$router.push({ name: 'Home' })
     },
     clear() {
       this.$v.$reset()
