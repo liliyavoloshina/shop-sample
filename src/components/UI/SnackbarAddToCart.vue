@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      timeout: 2000
+      timeout: 3000
     }
   },
   computed: {

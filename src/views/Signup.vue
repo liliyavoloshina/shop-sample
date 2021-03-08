@@ -144,10 +144,11 @@ export default {
       // this.$v.$touch()
       try {
         const sendingData = {
-          name: this.name,
+          username: this.name,
           email: this.email,
           password: this.password,
           checkbox: this.checkbox,
+          admin: false,
           mode: 'signup'
         }
         await this.$store.dispatch('auth/auth', sendingData)

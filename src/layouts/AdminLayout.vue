@@ -43,7 +43,7 @@
 
       <v-divider></v-divider>
       <v-list dense>
-        <v-list-item :to="{ name: 'Login' }" link>
+        <v-list-item @click="logout" link>
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -66,6 +66,12 @@
 
 <script>
 export default {
-  name: 'AdminLayout'
+  name: 'AdminLayout',
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
+      this.$router.replace({ name: 'Login' })
+    }
+  }
 }
 </script>

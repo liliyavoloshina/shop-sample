@@ -11,12 +11,29 @@ export default {
       password: payload.password,
       returnSecureToken: true
     }
-    const userData = {
-      username: payload.name
-    }
+
     const response = await authApi.auth(mode, authData)
 
-    console.log(response)
+    const dataToStore = {
+      userId: response.localId,
+      token: response.idToken,
+      username: payload.username,
+      admin: payload.admin
+    }
+
+    const authUserData = {
+      userId: response.localId,
+      token: response.idToken,
+    }
+
+    const personalData = {
+      username: payload.username,
+      admin: payload.admin
+    }
+
+    if (mode == 'signup') {
+      await authApi.storeUser(authUserData, personalData)
+    }
 
     if (response.error) {
       let errorMessage
@@ -26,6 +43,9 @@ export default {
           break
         case 'EMAIL_NOT_FOUND':
           errorMessage = 'User with this email does not exist'
+          break
+        case 'INVALID_EMAIL':
+          errorMessage = 'Wrong e-mail'
           break
         case 'INVALID_PASSWORD':
           errorMessage = 'Wrong password'
@@ -48,12 +68,6 @@ export default {
       dispatch('autoLogout')
     }, expiresIn)
 
-    const dataToStore = {
-      userId: response.localId,
-      token: response.idToken,
-      username: userData.username
-    }
-
     commit('SET_USER', dataToStore)
   },
   logout({ commit }) {
@@ -64,14 +78,15 @@ export default {
     const dataToStore = {
       userId: null,
       token: null,
-      username: null
+      username: null,
+      admin: false
     }
 
     clearTimeout(timer)
 
     commit('SET_USER', dataToStore)
   },
-  checkLogin({ commit, dispatch }) {
+  async checkLogin({ commit, dispatch }) {
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
     const tokenExpiration = localStorage.getItem('tokenExpiration')
@@ -87,10 +102,15 @@ export default {
     }, expiresIn)
 
     if (token && userId) {
-      commit('SET_USER', {
+      const response = await authApi.findUser(userId)
+      const dataToStore = {
+        userId: userId,
         token: token,
-        userId: userId
-      })
+        username: response.username,
+        admin: response.admin
+      }
+
+      commit('SET_USER', dataToStore)
     }
   },
   autoLogout({ commit, dispatch }) {

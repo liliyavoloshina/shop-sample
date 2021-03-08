@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -34,7 +35,8 @@ const routes = [
     name: 'AdminMain',
     component: () => import('@/views/AdminMain'),
     meta: {
-      layout: 'admin-layout'
+      layout: 'admin-layout',
+      onlyForAdmin: true
     },
   },
 
@@ -43,7 +45,8 @@ const routes = [
     name: 'AdminCategories',
     component: () => import('@/views/AdminCategories'),
     meta: {
-      layout: 'admin-layout'
+      layout: 'admin-layout',
+      onlyForAdmin: true
     }
   },
 
@@ -56,7 +59,8 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import('@/views/Cart')
+    component: () => import('@/views/Cart'),
+    meta: {requiresAuth: true}
   }
 ]
 
@@ -64,6 +68,16 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(function(to, _, next) {
+  if (to.meta.requiresAuth && !store.getters['auth/isAuthenticated']) {
+    next({ name: 'Login' })
+  } else if (to.meta.onlyForAdmin && !store.getters['auth/isAdmin']) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
 })
 
 export default router
