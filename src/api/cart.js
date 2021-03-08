@@ -4,27 +4,27 @@ const getCart = (userId) => {
   return axios.get(`/users/${userId}/cart.json`)
 }
 
-const postToCart = (userId, product) => {
-  return axios.post(`/users/${userId}/cart.json`, product)
+const postToCart = (userId, product, token) => {
+  return axios.post(`/users/${userId}/cart.json?auth=${token}`, product).catch((error) => error.response.data)
 }
 
-const patchQuantity = (userId, productId, newCount) => {
+const patchQuantity = (userId, productId, newCount, token) => {
   return axios
     .get(`/users/${userId}/cart.json?orderBy="id"&equalTo="${productId}"`)
     .then((response) => {
       let key = Object.keys(response.data)[0]
-      return axios.patch(`/users/${userId}/cart/${key}.json`, {
+      return axios.patch(`/users/${userId}/cart/${key}.json?auth=${token}`, {
         count: newCount
       })
     })
 }
 
-const deleteItemFromCart = (userId, productId) => {
+const deleteItemFromCart = (userId, productId, token) => {
   return axios
     .get(`/users/${userId}/cart.json?orderBy="id"&equalTo="${productId}"`)
     .then((response) => {
       let key = Object.keys(response.data)[0]
-      axios.delete(`/users/${userId}/cart/${key}.json`)
+      axios.delete(`/users/${userId}/cart/${key}.json?auth=${token}`)
     })
 }
 

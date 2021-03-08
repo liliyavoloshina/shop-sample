@@ -37,32 +37,36 @@ export default {
     newProduct.count = 1
 
     const userId = rootGetters['auth/userId']
-    const response = await cartApi.postToCart(userId, newProduct)
+    const token = rootGetters['auth/token']
+    const response = await cartApi.postToCart(userId, newProduct, token)
 
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get products')
+    if (response.error) {
+      const error = new Error(response.error.message || 'Failed to add to cart')
       throw error
     }
     commit('ADD_TO_CART', newProduct)
   },
   async increaseQuantity({commit, rootGetters}, product) {
     const userId = rootGetters['auth/userId']
+    const token = rootGetters['auth/token']
     const productId = product.id
     const newCount =  product.count + 1
-    await cartApi.patchQuantity(userId, productId, newCount)
+    await cartApi.patchQuantity(userId, productId, newCount, token)
     commit('UPDATE_QUANTITY', {product, newCount})
   },
   async decreaseQuantity({commit, rootGetters}, product) {
     const userId = rootGetters['auth/userId']
+    const token = rootGetters['auth/token']
     const productId = product.id
     const newCount =  product.count - 1
-    await cartApi.patchQuantity(userId, productId, newCount)
+    await cartApi.patchQuantity(userId, productId, newCount, token)
     commit('UPDATE_QUANTITY', {product, newCount})
   },
   async deleteItem({commit, rootGetters}, product) {
     const userId = rootGetters['auth/userId']
+    const token = rootGetters['auth/token']
     const productId = product.id
-    await cartApi.deleteItemFromCart(userId, productId)
+    await cartApi.deleteItemFromCart(userId, productId, token)
     commit('REMOVE_FROM_CART', product)
   }
 }

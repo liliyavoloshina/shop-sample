@@ -7,6 +7,7 @@
           :error-messages="emailErrors"
           label="E-mail"
           required
+          type="email"
           @input="$v.email.$touch()"
           @blur="$v.email.$touch()"
         ></v-text-field>
@@ -14,18 +15,19 @@
           v-model="password"
           :error-messages="passwordErrors"
           label="Password"
-          required
+          type="password"
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
       </v-card-text>
       <v-card-actions class="mt-4">
         <v-row>
+          {{ error }}
           <v-col cols="12" align="center">
-            <v-btn @click="submit" > Войти </v-btn>
+            <v-btn @click="submit"> Войти </v-btn>
           </v-col>
           <v-col cols="12" align="center">
-            <v-btn :to="{ name: 'Register' }" plain> Зарегистрироваться </v-btn>
+            <v-btn :to="{ name: 'Signup' }" plain> Зарегистрироваться </v-btn>
           </v-col>
         </v-row>
       </v-card-actions>
@@ -42,14 +44,13 @@ export default {
     email: { required, email },
     password: { required }
   },
-
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
-
   computed: {
     emailErrors() {
       const errors = []
@@ -67,9 +68,19 @@ export default {
   },
 
   methods: {
-    submit() {
-      this.$v.$touch(),
-      this.$router.push({name: 'Home'})
+    async submit() {
+      // this.$v.$touch(),
+      try {
+        const sendingData = {
+          email: this.email,
+          password: this.password,
+          mode: 'login'
+        }
+        await this.$store.dispatch('auth/auth', sendingData)
+        this.$router.replace({ name: 'Home' })
+      } catch (e) {
+        this.error = e.message
+      }
     },
     clear() {
       this.$v.$reset()

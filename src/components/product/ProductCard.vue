@@ -22,7 +22,7 @@
       </v-btn>
       <v-btn v-if="isInCart" color="success">In Cart!</v-btn>
     </v-card-actions>
-    <SnackbarAddToCart :openSnackbar="openSnackbar" :product="product" />
+    <SnackbarAddToCart :openSnackbar="openSnackbar" :error="error" :product="product" />
   </v-card>
 </template>
 
@@ -45,7 +45,8 @@ export default {
     return {
       addingToCart: false,
       openSnackbar: false,
-      disabled: false
+      disabled: false,
+      error: null
     }
   },
   computed: {
@@ -59,15 +60,13 @@ export default {
       this.disabled = true
       try {
         await this.$store.dispatch('cart/addToCart', product)
+        this.openSnackbar = true
       } catch (e) {
-        console.log(e)
+        this.error = e.message
+        this.openSnackbar = true
       }
       this.addingToCart = false
       this.disabled = false
-      this.openSnackbar = true
-      setTimeout(() => {
-        this.openSnackbar = false
-      }, 2000)
     }
   }
 }

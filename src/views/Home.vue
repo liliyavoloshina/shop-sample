@@ -97,16 +97,14 @@ export default {
         await this.$store.dispatch('filters/loadCategories')
       } catch (e) {
         this.errors = e
-        this.isLoading = false
-        console.log(e)
       }
+      this.isLoading = false
     },
     async loadCart() {
       this.isLoading = true
       try {
         await this.$store.dispatch('cart/loadCart')
       } catch (e) {
-        this.isLoading = false
         this.errors = e
       }
       this.isLoading = false

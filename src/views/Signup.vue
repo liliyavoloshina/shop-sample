@@ -151,10 +151,10 @@ export default {
           mode: 'signup'
         }
         await this.$store.dispatch('auth/auth', sendingData)
+        this.$router.replace({ name: 'Home' })
       } catch (e) {
         this.error = e.message
       }
-      // this.$router.push({ name: 'Home' })
     },
     clear() {
       this.$v.$reset()

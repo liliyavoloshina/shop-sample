@@ -11,12 +11,16 @@
     <v-btn :to="{ name: 'AdminMain' }" icon>
       <v-icon>mdi-shield-account-variant-outline</v-icon>
     </v-btn>
-    <v-btn :to="{ name: 'Login' }" icon>
+    <v-btn v-if="!isAuthenticated" :to="{ name: 'Login' }" icon>
+      <v-icon>mdi-login-variant</v-icon>
+    </v-btn>
+    <v-btn v-else @click="logout" icon>
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
     
     <v-btn :to="{ name: 'Cart' }" icon>
-      <v-badge :content="total" overlap> <v-icon>mdi-cart</v-icon></v-badge>
+      <v-badge v-if="total" :content="total" overlap><v-icon>mdi-cart</v-icon></v-badge>
+      <v-icon v-else>mdi-cart</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -27,6 +31,17 @@ export default {
   props: {
     total: {
       type: Number
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
+      this.$router.replace({name: 'Login'})
     }
   }
 }
