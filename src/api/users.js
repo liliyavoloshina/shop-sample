@@ -1,8 +1,12 @@
 import axios from '@/api/axios'
 
 const getUsers = async () => {
-  const response = await axios.get('/users.json')
-  return response.data
+  try {
+    const response = await axios.get('/users.json')
+    return response
+  } catch (error) {
+    return error.response
+  }
 }
 
 export default {

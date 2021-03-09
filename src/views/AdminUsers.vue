@@ -1,8 +1,9 @@
 <template>
   <v-container fluid>
-    <v-list class="ma-5">
+    <v-list v-if="users" class="ma-5">
       <UserItem v-for="(user, index) in users" :key="index" :user="user" />
     </v-list>
+    {{error}}
   </v-container>
 </template>
 
@@ -16,7 +17,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      errors: null
+      error: null
     }
   },
   computed: {
@@ -33,7 +34,7 @@ export default {
       try {
         await this.$store.dispatch('users/loadUsers')
       } catch (e) {
-        this.errors = e
+        this.error = e.message
       }
       this.isLoading = false
     }
