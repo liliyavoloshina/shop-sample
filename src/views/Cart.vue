@@ -26,8 +26,8 @@ export default {
       return this.$store.getters['cart/cart']
     }
   },
-  created() {
-    this.loadCart()
+  async created() {
+    await this.loadCart()
   },
   methods: {
     async loadCart() {
@@ -35,7 +35,6 @@ export default {
       try {
         await this.$store.dispatch('cart/loadCart')
       } catch (e) {
-        this.isLoading = false
         this.errors = e
       }
       this.isLoading = false

@@ -14,27 +14,6 @@ export default {
 
     const response = await authApi.auth(mode, authData)
 
-    const dataToStore = {
-      userId: response.localId,
-      token: response.idToken,
-      username: payload.username,
-      admin: payload.admin
-    }
-
-    const authUserData = {
-      userId: response.localId,
-      token: response.idToken,
-    }
-
-    const personalData = {
-      username: payload.username,
-      admin: payload.admin
-    }
-
-    if (mode == 'signup') {
-      await authApi.storeUser(authUserData, personalData)
-    }
-
     if (response.error) {
       let errorMessage
       switch (response.error.message) {
@@ -68,7 +47,31 @@ export default {
       dispatch('autoLogout')
     }, expiresIn)
 
-    commit('SET_USER', dataToStore)
+    if (mode == 'signup') {
+      const authData = {
+        userId: response.localId,
+        token: response.idToken
+      }
+      const userData = {
+        username: payload.username,
+        admin: payload.admin
+      }
+      await authApi.storeUser(authData, userData)
+      commit('SET_USER', {...authData, ...userData})
+    }
+
+    if (mode == 'login') {
+      const token = localStorage.getItem('token')
+      const userId = localStorage.getItem('userId')
+      const response = await authApi.findUser(userId)
+      const dataToStore = {
+        userId: userId,
+        token: token,
+        username: response.username,
+        admin: response.admin
+      }
+      commit('SET_USER', dataToStore)
+    }
   },
   logout({ commit }) {
     localStorage.removeItem('token')
@@ -109,6 +112,7 @@ export default {
         username: response.username,
         admin: response.admin
       }
+      console.log(new Date() + 'set user')
 
       commit('SET_USER', dataToStore)
     }

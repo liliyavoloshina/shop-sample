@@ -1,13 +1,13 @@
 import cartApi from '@/api/cart'
 
 export default {
-  async loadCart({commit, rootGetters}) {
-    const userId = rootGetters['auth/userId']
+  async loadCart({commit}) {
+    const userId = localStorage.getItem('userId')
 
     const response = await cartApi.getCart(userId)
 
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get products')
+    if (response.error) {
+      const error = new Error(response.error.message || 'Failed to get products')
       throw error
     }
 

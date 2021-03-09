@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar :total="total"/>
+    <Navbar/>
     <v-main>
       <v-container fluid>
         <v-col cols="12">
@@ -20,11 +20,6 @@ export default {
   components: {
     Navbar,
     Footer
-  },
-  computed: {
-    total() {
-      return this.$store.getters['cart/total']
-    }
   }
 }
 </script>

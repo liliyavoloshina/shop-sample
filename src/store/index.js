@@ -7,7 +7,7 @@ import auth from '@/store/modules/auth/index'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     products,
     cart,
@@ -15,3 +15,5 @@ export default new Vuex.Store({
     auth
   }
 })
+
+export default store

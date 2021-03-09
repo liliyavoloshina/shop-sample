@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store/index'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -37,7 +37,7 @@ const routes = [
     meta: {
       layout: 'admin-layout',
       onlyForAdmin: true
-    },
+    }
   },
 
   {
@@ -60,7 +60,7 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: () => import('@/views/Cart'),
-    meta: {requiresAuth: true}
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -70,8 +70,11 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(function(to, _, next) {
-  if (to.meta.requiresAuth && !store.getters['auth/isAuthenticated']) {
+router.beforeEach(function(to, from, next) {
+  console.log(store.state.auth.token)
+  console.log(store)
+
+  if (to.meta.requiresAuth && store.getters['auth/isAuthenticated'] == false) {
     next({ name: 'Login' })
   } else if (to.meta.onlyForAdmin && !store.getters['auth/isAdmin']) {
     next({ name: 'Login' })
