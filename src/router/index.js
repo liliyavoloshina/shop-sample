@@ -51,6 +51,16 @@ const routes = [
   },
 
   {
+    path: '/admin-users',
+    name: 'AdminUsers',
+    component: () => import('@/views/AdminUsers'),
+    meta: {
+      layout: 'admin-layout',
+      onlyForAdmin: true
+    }
+  },
+
+  {
     path: '/product/:id',
     name: 'Product',
     props: true,

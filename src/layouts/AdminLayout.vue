@@ -27,11 +27,11 @@
           </v-list-item-icon>
           <v-list-item-title>Products</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item :to="{ name: 'AdminUsers' }" link>
           <v-list-item-icon>
             <v-icon>mdi-account-multiple</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Shared with me</v-list-item-title>
+          <v-list-item-title>Users</v-list-item-title>
         </v-list-item>
         <v-list-item :to="{ name: 'AdminCategories' }" link>
           <v-list-item-icon>
