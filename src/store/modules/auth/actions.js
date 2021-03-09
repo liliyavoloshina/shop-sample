@@ -112,7 +112,6 @@ export default {
         username: response.username,
         admin: response.admin
       }
-      console.log(new Date() + 'set user')
 
       commit('SET_USER', dataToStore)
     }

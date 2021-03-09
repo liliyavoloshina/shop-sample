@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -70,11 +70,9 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(function(to, from, next) {
-  console.log(store.state.auth.token)
-  console.log(store)
-
-  if (to.meta.requiresAuth && store.getters['auth/isAuthenticated'] == false) {
+router.beforeEach(async function(to, from, next) {
+  await store.dispatch('auth/checkLogin')
+  if (to.meta.requiresAuth && !store.getters['auth/isAuthenticated']) {
     next({ name: 'Login' })
   } else if (to.meta.onlyForAdmin && !store.getters['auth/isAdmin']) {
     next({ name: 'Login' })

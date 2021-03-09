@@ -8,8 +8,6 @@
 
     <v-spacer></v-spacer>
 
-    {{ isAuthenticated }}
-
     <span v-if="isAuthenticated">Hello, {{ username }}!</span>
 
     <v-btn v-if="isAdmin" :to="{ name: 'AdminMain' }" icon>
