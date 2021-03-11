@@ -1,24 +1,24 @@
 import axios from '@/api/axios'
 
-const postNewCategory = (category) => {
-  return axios.post('/categories.json', category)
+const postNewCategory = (category, token) => {
+  return axios.post(`/categories.json?auth=${token}`, category)
 }
 
 const getCategories = () => {
   return axios.get('/categories.json')
 }
 
-const deleteCategory = (categoryId) => {
-  return axios.delete(`/categories/${categoryId}.json`)
+const deleteCategory = (categoryId, token) => {
+  return axios.delete(`/categories/${categoryId}.json?auth=${token}`)
 }
 
-const patchCategory = async (categoryId, quantity) => {
-  const response = await axios.get(`/categories/${categoryId}.json`)
+const patchCategory = async (categoryId, quantity, token) => {
+  const response = await axios.get(`/categories/${categoryId}.json?auth=${token}`)
   let initialCount = response.data.count
   if (quantity == 'increase') {
-    return axios.patch(`/categories/${categoryId}.json`, {"count": initialCount + 1})
+    return axios.patch(`/categories/${categoryId}.json?auth=${token}`, {"count": initialCount + 1})
   } else {
-    return axios.patch(`/categories/${categoryId}.json`, {"count": initialCount - 1})
+    return axios.patch(`/categories/${categoryId}.json?auth=${token}`, {"count": initialCount - 1})
   }
 }
 

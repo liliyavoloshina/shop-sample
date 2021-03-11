@@ -1,8 +1,11 @@
 <template>
-  <v-card class="mt-5 pa-3">
-    <v-card-title>Add New Product</v-card-title>
+  <v-card outlined tile class="pa-3">
+    <v-card-title>Add New Category</v-card-title>
     <v-card-text>
       <form>
+        <v-scale-transition>
+          <ErrorAlert v-if="errors" :error="errors" />
+        </v-scale-transition>
         <v-text-field
           v-model="newCategory.name"
           :rules="rules.newCategory.name"
@@ -40,7 +43,8 @@ export default {
         newCategory: [
           (val) => (val || '').length > 0 || 'This field is required'
         ]
-      }
+      },
+      errors: null
     }
   },
   computed: {
@@ -53,7 +57,7 @@ export default {
       try {
         await this.$store.dispatch('filters/addNewCategory', this.newCategory)
       } catch (e) {
-        console.log(e)
+        this.errors = e.message
       }
       this.newCategory.name = ''
     }

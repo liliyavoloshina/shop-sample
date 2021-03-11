@@ -1,11 +1,14 @@
 <template>
-  <v-card elevation="2" class="mx-auto pa-4" max-width="374">
-    <form>
+  <v-card elevation="2" class="mx-auto" max-width="374">
+    <LoaderLinear v-if="isLoading" />
+    <form class="pa-4">
+      <v-scale-transition>
+        <ErrorAlert v-if="errors" :error="errors" />
+      </v-scale-transition>
       <v-card-text>
         <v-text-field
           v-model="name"
           :error-messages="nameErrors"
-          :counter="10"
           label="Name"
           required
           @input="$v.name.$touch()"
@@ -23,6 +26,7 @@
           v-model="password"
           :error-messages="passwordErrors"
           label="Password"
+          type="password"
           required
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
@@ -31,6 +35,7 @@
           v-model="repeatPassword"
           :error-messages="repeatPasswordErrors"
           label="Repeat Password"
+          type="password"
           required
           @input="$v.repeatPassword.$touch()"
           @blur="$v.repeatPassword.$touch()"
@@ -46,10 +51,9 @@
       </v-card-text>
       <v-spacer></v-spacer>
       <v-card-actions class="mt-4">
-        {{ error }}
         <v-row>
           <v-col cols="12" align="center">
-            <v-btn @click="submit" class="text-center">
+            <v-btn @click="submit" :disabled="$v.$invalid" class="text-center">
               Зарегистрироваться
             </v-btn>
           </v-col>
@@ -63,18 +67,13 @@
 </template>
 
 <script>
-import {
-  required,
-  maxLength,
-  email,
-  sameAs,
-  minLength
-} from 'vuelidate/lib/validators'
+import LoaderLinear from '@/components/UI/LoaderLinear'
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Register',
   validations: {
-    name: { required, maxLength: maxLength(10) },
+    name: { required },
     email: { required, email },
     password: { required, minLength: minLength(6) },
     repeatPassword: {
@@ -86,7 +85,9 @@ export default {
       }
     }
   },
-
+  components: {
+    LoaderLinear
+  },
   data() {
     return {
       name: '',
@@ -94,16 +95,14 @@ export default {
       password: '',
       repeatPassword: '',
       checkbox: false,
-      error: null
+      isLoading: false,
+      errors: null
     }
   },
-
   computed: {
     nameErrors() {
       const errors = []
       if (!this.$v.name.$dirty) return errors
-      !this.$v.name.maxLength &&
-        errors.push('Name must be at most 10 characters long.')
       !this.$v.name.required && errors.push('Name is required.')
       return errors
     },
@@ -141,7 +140,8 @@ export default {
 
   methods: {
     async submit() {
-      // this.$v.$touch()
+      this.isLoading = true
+      this.$v.$touch()
       try {
         const sendingData = {
           username: this.name,
@@ -154,16 +154,17 @@ export default {
         await this.$store.dispatch('auth/auth', sendingData)
         this.$router.replace({ name: 'Home' })
       } catch (e) {
-        this.error = e.message
+        this.errors = e.message
       }
-    },
-    clear() {
-      this.$v.$reset()
-      this.name = ''
-      this.email = ''
-      this.checkbox = false
-      this.error = null
+      this.isLoading = false
     }
+  },
+  clear() {
+    this.$v.$reset()
+    this.name = ''
+    this.email = ''
+    this.checkbox = false
+    this.error = null
   }
 }
 </script>

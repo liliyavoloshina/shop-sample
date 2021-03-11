@@ -3,13 +3,12 @@ import productApi from '@/api/products'
 export default {
   async loadProducts({commit}) {
     const response = await productApi.getProducts()
-
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to get products')
-      throw error
-    }
-
     const responseData = response.data
+
+    // if (response.status != 200) {
+    //   const error = new Error(response.data || 'Failed to get products')
+    //   throw error
+    // }
 
     const products = []
 
@@ -30,7 +29,7 @@ export default {
     commit('SET_PRODUCTS', products)
   },
 
-  async addNewProduct({ commit }, product) {
+  async addNewProduct({ commit, rootGetters }, product) {
     const newProduct = {
       name: product.name,
       description: product.description,
@@ -41,21 +40,18 @@ export default {
       createdAt: product.createdAt
     }
 
-    const response = await productApi.postNewProduct(JSON.stringify(newProduct))
+    const token = rootGetters['auth/token']
 
-    if (!response.status == 200) {
-      const error = new Error(response.message || 'Failed to post new product')
-      throw error
-    }
-
+    const response = await productApi.postNewProduct(newProduct, token)
+    // const response = await productApi.postNewProduct(JSON.stringify(newProduct), token)
     newProduct.id = response.data.name
 
     commit('ADD_NEW_PRODUCTS', newProduct)
   },
 
-  async removeProduct({commit}, id) {
-
-    const response = await productApi.deleteProduct(id)
+  async removeProduct({commit, rootGetters}, id) {
+    const token = rootGetters['auth/token']
+    const response = await productApi.deleteProduct(id, token)
 
     if (!response.status == 200) {
       const error = new Error(response.message || 'Failed to delete product')

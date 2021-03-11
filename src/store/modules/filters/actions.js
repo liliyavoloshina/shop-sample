@@ -24,13 +24,14 @@ export default {
 
     commit('SET_CATEGORIES', categories)
   },
-  async addNewCategory({ commit }, category) {
+  async addNewCategory({ commit, rootGetters }, category) {
     const newCategory = {
       name: category.name,
       count: 0
     }
-
-    const response = await categoryApi.postNewCategory(JSON.stringify(newCategory))
+    const token = rootGetters['auth/token']
+    const response = await categoryApi.postNewCategory(newCategory, token)
+    // const response = await categoryApi.postNewCategory(JSON.stringify(newCategory))
 
     if (!response.status == 200) {
       const error = new Error(response.message || 'Failed to post new category')
@@ -42,9 +43,9 @@ export default {
     commit('ADD_NEW_CATEGORY', newCategory)
   },
 
-  async removeCategory({commit}, id) {
-
-    const response = await categoryApi.deleteCategory(id)
+  async removeCategory({commit,rootGetters}, id) {
+    const token = rootGetters['auth/token']
+    const response = await categoryApi.deleteCategory(id, token)
 
     if (!response.status == 200) {
       const error = new Error(response.message || 'Failed to delete category')
@@ -53,13 +54,15 @@ export default {
     commit('REMOVE_CATEGORY', id)
   },
 
-  async increaseCategoryCount({commit}, categoryId) {
-    await categoryApi.patchCategory(categoryId, 'increase')
+  async increaseCategoryCount({commit,rootGetters}, categoryId) {
+    const token = rootGetters['auth/token']
+    await categoryApi.patchCategory(categoryId, 'increase', token)
     commit('INCREASE_CATEGORY_COUNT', categoryId)
   },
 
-  async decreaseCategoryCount({commit}, categoryId) {
-    await categoryApi.patchCategory(categoryId, 'decrease')
+  async decreaseCategoryCount({commit, rootGetters}, categoryId) {
+    const token = rootGetters['auth/token']
+    await categoryApi.patchCategory(categoryId, 'decrease', token)
     commit('DECREASE_CATEGORY_COUNT', categoryId)
   },
 

@@ -1,14 +1,11 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col>
-        <AdminProductList :products="products" :isLoading="isLoading" />
-      </v-col>
-
-      <v-col>
-        <AdminAddNewProduct :categories="categories" />
-      </v-col>
-    </v-row>
+    <AdminAddNewProduct :categories="categories" />
+    <AdminProductList
+      :products="products"
+      :isLoading="isLoading"
+      :errors="errors"
+    />
   </v-container>
 </template>
 
@@ -45,8 +42,7 @@ export default {
       try {
         await this.$store.dispatch('products/loadProducts')
       } catch (e) {
-        this.isLoading = false
-        this.errors = e
+        this.errors = e.message
       }
       this.isLoading = false
     },
@@ -55,9 +51,7 @@ export default {
       try {
         await this.$store.dispatch('filters/loadCategories')
       } catch (e) {
-        this.isLoading = false
-        this.errors = e
-        console.log(e)
+        this.errors = e.message
       }
       this.isLoading = false
     }

@@ -1,74 +1,81 @@
 <template>
-  <v-card class="mt-5 pa-3">
-    <div v-if="errors">{{ errors }}</div>
-    <v-card-title>Add New Product</v-card-title>
-    <v-card-text>
-      <form>
-        <v-text-field
-          v-model="product.name"
-          :error-messages="nameErrors"
-          label="Name"
-          required
-          @input="$v.product.name.$touch()"
-          @blur="$v.product.name.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="product.image"
-          :error-messages="imageErrors"
-          label="Image"
-          required
-          @input="$v.product.image.$touch()"
-          @blur="$v.product.image.$touch()"
-        ></v-text-field>
-        <v-textarea
-          v-model="product.description"
-          :error-messages="descriptionErrors"
-          label="Description"
-          required
-          @input="$v.product.description.$touch()"
-          @blur="$v.product.description.$touch()"
-        ></v-textarea>
-        <v-select
-          v-model="product.category"
-          :items="categories"
-          item-text="name"
-          item-value="id"
-          :error-messages="categoryErrors"
-          label="Category"
-          required
-          class="mb-2"
-          @change="$v.product.category.$touch()"
-          @blur="$v.product.category.$touch()"
-        ></v-select>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model.number="product.price"
-              :error-messages="priceErrors"
-              label="Price"
-              required
-              solo
-              type="number"
-              @input="$v.product.price.$touch()"
-              @blur="$v.product.price.$touch()"
-            >
-            </v-text-field
-          ></v-col>
-          <v-col
-            ><v-checkbox
-              class="mt-auto"
-              v-model="product.discount"
-              label="Discount"
-            ></v-checkbox
-          ></v-col>
-        </v-row>
-      </form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn @click="submit" block>Add</v-btn>
-      <!-- <v-btn @click="submit" block :disabled="$v.product.$invalid">Add</v-btn> -->
-    </v-card-actions>
-  </v-card>
+  <v-expansion-panels>
+    <v-expansion-panel>
+      <v-expansion-panel-header expand-icon="mdi-plus">
+        Add New Product
+      </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <form>
+          <v-scale-transition>
+            <ErrorAlert v-if="errors" :error="errors" />
+          </v-scale-transition>
+          <v-text-field
+            v-model="product.name"
+            :error-messages="nameErrors"
+            label="Name"
+            required
+            @input="$v.product.name.$touch()"
+            @blur="$v.product.name.$touch()"
+          ></v-text-field>
+          <v-text-field
+            v-model="product.image"
+            :error-messages="imageErrors"
+            label="Image"
+            required
+            @input="$v.product.image.$touch()"
+            @blur="$v.product.image.$touch()"
+          ></v-text-field>
+          <v-textarea
+            v-model="product.description"
+            :error-messages="descriptionErrors"
+            label="Description"
+            required
+            @input="$v.product.description.$touch()"
+            @blur="$v.product.description.$touch()"
+          ></v-textarea>
+          <v-select
+            v-model="product.category"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            :error-messages="categoryErrors"
+            label="Category"
+            required
+            class="mb-2"
+            @change="$v.product.category.$touch()"
+            @blur="$v.product.category.$touch()"
+          ></v-select>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.number="product.price"
+                :error-messages="priceErrors"
+                label="Price"
+                required
+                solo
+                type="number"
+                @input="$v.product.price.$touch()"
+                @blur="$v.product.price.$touch()"
+              >
+              </v-text-field
+            ></v-col>
+            <v-col
+              ><v-checkbox
+                class="mt-auto"
+                v-model="product.discount"
+                label="Discount"
+              ></v-checkbox
+            ></v-col>
+          </v-row>
+        </form>
+        <v-card-actions>
+          <v-btn @click="submit" block :disabled="$v.product.$invalid"
+            >Add</v-btn
+          >
+        </v-card-actions>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script>
@@ -156,11 +163,13 @@ export default {
       }
       try {
         await this.$store.dispatch('products/addNewProduct', sendingData)
-        await this.$store.dispatch('filters/increaseCategoryCount', sendingData.category)
+        await this.$store.dispatch(
+          'filters/increaseCategoryCount',
+          sendingData.category
+        )
       } catch (e) {
         this.loading = false
-        this.errors = e
-        console.log(e)
+        this.errors = e.message
       }
       this.loading = false
       this.$v.$reset()

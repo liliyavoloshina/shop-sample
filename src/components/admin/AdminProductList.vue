@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-subheader>Products</v-subheader>
+    <v-scale-transition>
+      <ErrorAlert v-if="errors" :error="errors" />
+    </v-scale-transition>
     <Loader v-if="isLoading" />
     <div v-else-if="products.length > 0">
       <v-list>
@@ -26,12 +29,13 @@
         </transition-group>
       </v-list>
     </div>
-    <div v-else>So empty...</div>
+    <EmptyMessage v-if="products.length < 1">No products...</EmptyMessage>
   </div>
 </template>
 
 <script>
 import Loader from '@/components/UI/LoaderSpinner'
+import EmptyMessage from '@/components/UI/EmptyMessage'
 export default {
   name: 'AdminProductList',
   props: {
@@ -41,17 +45,24 @@ export default {
     isLoading: {
       type: Boolean,
       required: true
+    },
+    errors: {
+      type: String
     }
   },
   components: {
-    Loader
+    Loader,
+    EmptyMessage
   },
   methods: {
     async removeProduct(product) {
       try {
         await this.$store.dispatch('products/removeProduct', product.id)
-        await this.$store.dispatch('filters/decreaseCategoryCount', product.category)
-      } catch (e){
+        await this.$store.dispatch(
+          'filters/decreaseCategoryCount',
+          product.category
+        )
+      } catch (e) {
         console.log(e)
       }
     }

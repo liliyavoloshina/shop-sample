@@ -1,6 +1,11 @@
 <template>
-  <v-card elevation="2" class="mx-auto pa-4" max-width="374">
-    <form>
+  <v-card elevation="2" class="mx-auto" max-width="374">
+    <LoaderLinear v-if="isLoading" />
+
+    <form class="pa-4">
+      <v-scale-transition>
+        <ErrorAlert v-if="errors" :error="errors" />
+      </v-scale-transition>
       <v-card-text>
         <v-text-field
           v-model="email"
@@ -22,9 +27,8 @@
       </v-card-text>
       <v-card-actions class="mt-4">
         <v-row>
-          {{ error }}
           <v-col cols="12" align="center">
-            <v-btn @click="submit"> Войти </v-btn>
+            <v-btn @click="submit" :disabled="$v.$invalid"> Войти </v-btn>
           </v-col>
           <v-col cols="12" align="center">
             <v-btn :to="{ name: 'Signup' }" plain> Зарегистрироваться </v-btn>
@@ -37,6 +41,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
+import LoaderLinear from '@/components/UI/LoaderLinear'
 
 export default {
   name: 'Login',
@@ -44,11 +49,13 @@ export default {
     email: { required, email },
     password: { required }
   },
+  components: { LoaderLinear },
   data() {
     return {
       email: '',
       password: '',
-      error: null
+      isLoading: false,
+      errors: null
     }
   },
   computed: {
@@ -69,7 +76,8 @@ export default {
 
   methods: {
     async submit() {
-      // this.$v.$touch(),
+      this.isLoading = true
+      this.$v.$touch()
       try {
         const sendingData = {
           email: this.email,
@@ -79,14 +87,15 @@ export default {
         await this.$store.dispatch('auth/auth', sendingData)
         this.$router.replace({ name: 'Home' })
       } catch (e) {
-        this.error = e.message
+        this.errors = e.message
       }
-    },
-    clear() {
-      this.$v.$reset()
-      this.email = ''
-      this.password = ''
+      this.isLoading = false
     }
+  },
+  clear() {
+    this.$v.$reset()
+    this.email = ''
+    this.password = ''
   }
 }
 </script>

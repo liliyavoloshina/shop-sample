@@ -1,15 +1,20 @@
 import axios from '@/api/axios'
 
-const postNewProduct = (product) => {
-  return axios.post('/products.json', product)
+const postNewProduct = async (product, token) => {
+  try {
+    const response = axios.post(`/products.json?auth=${token}`, product)
+    return response
+  } catch (error) {
+    return error
+  }
 }
 
 const getProducts = () => {
   return axios.get('/products.json')
 }
 
-const deleteProduct = (id) => {
-  return axios.delete(`/products/${id}.json`)
+const deleteProduct = (id, token) => {
+  return axios.delete(`/products/${id}.json?auth=${token}`)
 }
 
 const getProduct = (id) => {

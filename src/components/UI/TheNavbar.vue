@@ -13,18 +13,19 @@
     <v-btn v-if="isAdmin" :to="{ name: 'AdminMain' }" icon>
       <v-icon>mdi-shield-account-variant-outline</v-icon>
     </v-btn>
-    <v-btn v-if="!isAuthenticated" :to="{ name: 'Login' }" icon>
-      <v-icon>mdi-login-variant</v-icon>
-    </v-btn>
-    <v-btn v-else @click="logout" icon>
-      <v-icon>mdi-login-variant</v-icon>
-    </v-btn>
+    
 
     <v-btn v-if="isAuthenticated" :to="{ name: 'Cart' }" icon>
       <v-badge v-if="total" :content="total" overlap
         ><v-icon>mdi-cart</v-icon></v-badge
       >
       <v-icon v-else>mdi-cart</v-icon>
+    </v-btn>
+    <v-btn v-if="!isAuthenticated" :to="{ name: 'Login' }" icon>
+      <v-icon>mdi-login-variant</v-icon>
+    </v-btn>
+    <v-btn v-else @click="logout" icon>
+      <v-icon>mdi-login-variant</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
