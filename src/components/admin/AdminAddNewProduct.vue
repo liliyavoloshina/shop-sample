@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels class="mb-2">
     <v-expansion-panel>
       <v-expansion-panel-header expand-icon="mdi-plus">
         Add New Product

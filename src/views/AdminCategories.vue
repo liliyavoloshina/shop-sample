@@ -1,13 +1,7 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col>
-        <AdminCategoryList :categories="categories" :isLoading="isLoading" />
-      </v-col>
-      <v-col>
-        <AdminAddNewCategory />
-      </v-col>
-    </v-row>
+    <AdminAddNewCategory />
+    <AdminCategoryList :categories="categories" :isLoading="isLoading" />
   </v-container>
 </template>
 

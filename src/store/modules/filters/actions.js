@@ -31,7 +31,6 @@ export default {
     }
     const token = rootGetters['auth/token']
     const response = await categoryApi.postNewCategory(newCategory, token)
-    // const response = await categoryApi.postNewCategory(JSON.stringify(newCategory))
 
     if (!response.status == 200) {
       const error = new Error(response.message || 'Failed to post new category')

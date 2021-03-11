@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-subheader>Products</v-subheader>
     <v-scale-transition>
       <ErrorAlert v-if="errors" :error="errors" />
     </v-scale-transition>
@@ -29,7 +28,7 @@
         </transition-group>
       </v-list>
     </div>
-    <EmptyMessage v-if="products.length < 1">No products...</EmptyMessage>
+    <EmptyMessage v-if="!isLoading && products.length < 1">No products...</EmptyMessage>
   </div>
 </template>
 

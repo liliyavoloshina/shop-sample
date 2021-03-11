@@ -16,8 +16,8 @@ export default {
       return this.$store.getters['auth/didAutoLogout']
     }
   },
-  async created() {
-    await this.$store.dispatch('auth/checkLogin')
+  created() {
+    this.$store.dispatch('auth/checkLogin')
   },
   watch: {
     didAutoLogout(curVal, oldVal) {
