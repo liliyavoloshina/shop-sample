@@ -6,10 +6,12 @@
         <Sidebar v-else :active-categories="activeCategories" />
       </v-col>
       <v-col md="9" cols="12">
-        <div v-if="!isLoading && !filteredProducts.length > 0">No products</div>
+        <EmptyMessage v-if="!isLoading && !filteredProducts.length > 0"
+          >No products...</EmptyMessage
+        >
         <SkeletonLoader v-if="isLoading" :whatElem="'ProductItemInhome'" />
-        <v-row>
-          <v-col
+        <transition-group name="list" mode="out-in" class="row"
+          ><v-col
             v-for="product in filteredProducts"
             :key="product.id"
             lg="4"
@@ -17,9 +19,8 @@
             sm="6"
             cols="12"
           >
-            <Product :product="product" />
-          </v-col>
-        </v-row>
+            <Product :product="product" /> </v-col
+        ></transition-group>
       </v-col>
     </v-row>
   </div>
@@ -29,12 +30,14 @@
 import Product from '@/components/product/ProductCard'
 import SkeletonLoader from '@/components/UI/SkeletonLoader'
 import Sidebar from '@/components/UI/TheSidebar'
+import EmptyMessage from '@/components/UI/EmptyMessage'
 export default {
   name: 'Home',
   components: {
     Product,
     SkeletonLoader,
-    Sidebar
+    Sidebar,
+    EmptyMessage
   },
   data() {
     return {
@@ -112,3 +115,31 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.list-enter-from {
+  opacity: 0;
+}
+
+.list-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.list-enter-to,
+.list-leave-from {
+  opacity: 1;
+}
+
+.list-leave-active {
+  transition: all 0.5s ease-in;
+  position: absolute;
+}
+
+.list-leave-to {
+  opacity: 0;
+}
+
+.list-move {
+  transition: transform 0.5s ease;
+}
+</style>

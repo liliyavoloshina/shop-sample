@@ -28,6 +28,7 @@
           <v-textarea
             v-model="product.description"
             :error-messages="descriptionErrors"
+            counter="30"
             label="Description"
             required
             @input="$v.product.description.$touch()"
@@ -80,8 +81,8 @@
 
 <script>
 import { helpers } from 'vuelidate/lib/validators'
-const alpha = helpers.regex('alpha', /^[a-zA-Zа-яА-я]*$/)
-import { required, minLength, numeric, url } from 'vuelidate/lib/validators'
+const alpha = helpers.regex('alpha', /^[a-zA-Zа-яА-я -]*$/)
+import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators'
 
 export default {
   name: 'AdminAddNewProduct',
@@ -89,7 +90,7 @@ export default {
     product: {
       name: { required, alpha },
       image: { required, url },
-      description: { required, minLength: minLength(10) },
+      description: { required, minLength: minLength(10), maxLength: maxLength(30) },
       category: { required },
       price: { required, numeric },
       discount: {}
@@ -130,7 +131,9 @@ export default {
       const errors = []
       if (!this.$v.product.description.$dirty) return errors
       !this.$v.product.description.minLength &&
-        errors.push('Description must be at most 10 characters long')
+        errors.push('Description must be at least 10 characters long')
+      !this.$v.product.description.maxLength &&
+        errors.push('Description must be no more than 50 characters')
       !this.$v.product.description.required &&
         errors.push('Description is required.')
       return errors

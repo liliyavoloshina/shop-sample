@@ -16,11 +16,11 @@
     <v-card-actions class="pa-4">
       <span class="font-weight-bold">{{ product.price }} $</span>
       <v-spacer></v-spacer>
-      <v-btn v-if="!isInCart" @click="addToCart(product)" :disabled="disabled">
+      <v-btn  @click="addToCart(product)" :disabled="disabled">
         <LoaderSpinner v-if="addingToCart" :size="20" :width="2" />
-        <span v-else>Add To Cart</span>
+        <span v-else-if="!isInCart">Add To Cart</span>
+        <span v-else-if="isInCart">In Cart!</span>
       </v-btn>
-      <v-btn v-if="isInCart" color="success">In Cart!</v-btn>
     </v-card-actions>
     <SnackbarAddToCart :openSnackbar="openSnackbar" :error="error" :product="product" />
   </v-card>
@@ -66,7 +66,6 @@ export default {
         this.openSnackbar = true
       }
       this.addingToCart = false
-      this.disabled = false
     }
   }
 }

@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 body::-webkit-scrollbar {
   width: 5px;
 }

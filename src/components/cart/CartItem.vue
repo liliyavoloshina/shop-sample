@@ -1,25 +1,30 @@
 <template>
-  <v-list-item>
-    <v-list-item-avatar></v-list-item-avatar>
-    <v-list-item-title>{{ item.name }}</v-list-item-title>
+  <tr>
+    <td><v-img :src="item.image" max-width="60"></v-img></td>
+    <td>
+      {{ item.name }}
+    </td>
+    <td>{{ item.price }}$</td>
+    <td>
+      <v-btn
+        v-if="item.count > 1"
+        @click="decreaseQuantity(item)"
+        icon
+        color="pink"
+      >
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
 
-    <v-list-item-subtitle class="text--primary">{{
-      item.description
-    }}</v-list-item-subtitle>
-
-    <v-list-item-subtitle></v-list-item-subtitle>
-
-    <v-btn v-if="item.count > 1" @click="decreaseQuantity(item)" icon color="pink">
-      <v-icon>mdi-minus</v-icon>
-    </v-btn>
-    <v-btn v-else @click="deleteItem(item)" icon color="red">
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
-    <div>{{ item.count }}</div>
-    <v-btn @click="increaseQuantity(item)" icon color="pink">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
-  </v-list-item>
+      <v-btn v-if="item.count == 1" @click="deleteItem(item)" icon color="red">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+      <span>{{ item.count }}</span>
+      <v-btn @click="increaseQuantity(item)" icon color="pink">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </td>
+    <td>{{subtotalPrice}} $</td>
+  </tr>
 </template>
 
 <script>
@@ -27,8 +32,12 @@ export default {
   name: 'CartItem',
   props: {
     item: {
-      type: Object,
-      required: true
+      type: Object
+    }
+  },
+  computed: {
+    subtotalPrice() {
+      return this.item.count * this.item.price
     }
   },
   methods: {

@@ -41,7 +41,7 @@ export default {
       if (this.error != null) {
         return 'You must be logged in to start shopping!'
       } else {
-        return `You added "${this.product.name }!`
+        return `You added "${this.product.name }"!`
       }
     },
     snackbarState: {
