@@ -108,7 +108,7 @@
             ></v-text-field
           ></v-col>
         </v-row>
-
+        
         <v-row>
           <v-col cols="12">
             <v-textarea
@@ -116,18 +116,18 @@
               label="Message"
               clearable
               clear-icon="mdi-close-circle"
+              prepend-inner-icon="mdi-comment"
               filled
             ></v-textarea>
           </v-col>
         </v-row>
-
-        <v-row>
-          <v-col cols="12" align="center">
-            <v-btn @click="submit" :disabled="$v.$invalid" color="primary">
+        <v-row class="mt-12">
+          <v-col><v-btn @click="prevStep"> Cancel </v-btn></v-col>
+          <v-spacer></v-spacer>
+          <v-col class="text-end"><v-btn @click="submit" :disabled="$v.$invalid" color="primary">
               Send
-            </v-btn>
-          </v-col>
-        </v-row>
+            </v-btn></v-col>
+          </v-row>
       </v-container>
     </form>
   </v-card>
@@ -243,7 +243,10 @@ export default {
         this.errors = e.message
       }
       this.isLoading = false
-      this.$emit('submitted')
+      this.$emit('next-step')
+    },
+    prevStep() {
+      this.$emit('prev-step')
     }
   }
 }

@@ -1,20 +1,33 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left" width="1%">Product</th>
-          <th class="text-left"></th>
-          <th class="text-left">Price</th>
-          <th class="text-left pl-8">Quantity</th>
-          <th class="text-left">Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        <CartItem v-for="item in cart" :key="item.id" :item="item" />
-      </tbody>
-    </template>
-  </v-simple-table>
+  <div>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left" width="1%">Product</th>
+            <th class="text-left"></th>
+            <th class="text-left">Price</th>
+            <th class="text-left pl-8">Quantity</th>
+            <th class="text-left">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <CartItem v-for="item in cart" :key="item.id" :item="item" />
+        </tbody>
+      </template>
+    </v-simple-table>
+    <v-row class="mt-12">
+      <v-col
+        ><div class="text-h6">
+          Total: <span class="font-weight-black">{{ totalPrice }} $</span>
+        </div></v-col
+      >
+      <v-spacer></v-spacer>
+      <v-col class="text-end"
+        ><v-btn color="primary" @click="nextStep"> Continue </v-btn></v-col
+      ></v-row
+    >
+  </div>
 </template>
 
 <script>
@@ -28,6 +41,16 @@ export default {
   },
   components: {
     CartItem
+  },
+  computed: {
+    totalPrice() {
+      return this.$store.getters['cart/totalPrice']
+    }
+  },
+  methods: {
+    nextStep() {
+      this.$emit('next-step')
+    }
   }
 }
 </script>
