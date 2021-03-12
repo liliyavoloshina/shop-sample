@@ -5,7 +5,9 @@ const getCart = (userId) => {
 }
 
 const postToCart = (userId, product, token) => {
-  return axios.post(`/users/${userId}/cart.json?auth=${token}`, product).catch((error) => error.response.data)
+  return axios
+    .post(`/users/${userId}/cart.json?auth=${token}`, product)
+    .catch((error) => error.response.data)
 }
 
 const patchQuantity = (userId, productId, newCount, token) => {
@@ -28,8 +30,7 @@ const deleteItemFromCart = (userId, productId, token) => {
     })
 }
 const clearCart = (userId, token) => {
-  return axios
-    .delete(`/users/${userId}/cart.json?auth=${token}`)
+  return axios.delete(`/users/${userId}/cart.json?auth=${token}`)
 }
 
 export default {

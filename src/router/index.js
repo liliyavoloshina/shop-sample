@@ -59,6 +59,15 @@ const routes = [
       onlyForAdmin: true
     }
   },
+  {
+    path: '/admin-orders',
+    name: 'AdminOrders',
+    component: () => import('@/views/AdminOrders'),
+    meta: {
+      layout: 'admin-layout',
+      onlyForAdmin: true
+    }
+  },
 
   {
     path: '/product/:id',

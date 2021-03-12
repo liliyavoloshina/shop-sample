@@ -10,7 +10,15 @@ export default {
       throw error
     }
 
-    commit('SET_ORDERS', responseData)
+    const orders = []
+
+    for (let key in responseData) {
+      const order = {...responseData[key]}
+      order.id = key
+      orders.push(order)
+    }
+
+    commit('SET_ORDERS', orders)
   },
   async addNewOrder({commit, rootGetters}, order) {
     const token = rootGetters['auth/token']
@@ -21,5 +29,15 @@ export default {
       throw error
     }
     commit('ADD_NEW_ORDER', order)
+  },
+  async removeOrder({commit, rootGetters}, id) {
+    const token = rootGetters['auth/token']
+    const response = await ordersApi.deleteOrder(id, token)
+
+    if (response.error) {
+      const error = new Error(response.error.message || 'Failed to add new order')
+      throw error
+    }
+    commit('REMOVE_ORDER', id)
   }
 }

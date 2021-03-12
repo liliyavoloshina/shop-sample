@@ -235,6 +235,7 @@ export default {
           state: this.state,
           zip: this.zip,
           message: this.message,
+          createdAt: new Date().toLocaleString(),
           products: this.products
         }
         await this.$store.dispatch('orders/addNewOrder', sendingData)

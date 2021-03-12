@@ -1,7 +1,7 @@
 import axios from '@/api/axios'
 
-const getOrders = (token) => {
-  return axios.get(`/orders.json?auth=${token}`)
+const getOrders = () => {
+  return axios.get(`/orders.json`)
 }
 
 const postOrder = async (order, token) => {
@@ -11,8 +11,16 @@ const postOrder = async (order, token) => {
     return error.response.data
   }
 }
+const deleteOrder = async (id, token) => {
+  try {
+    return axios.delete(`/orders/${id}.json?auth=${token}`)
+  } catch (error) {
+    return error.response.data
+  }
+}
 
 export default {
   getOrders,
-  postOrder
+  postOrder,
+  deleteOrder
 }

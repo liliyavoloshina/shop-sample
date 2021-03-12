@@ -35,9 +35,15 @@
         </v-list-item>
         <v-list-item :to="{ name: 'AdminCategories' }" link>
           <v-list-item-icon>
-            <v-icon>mdi-star</v-icon>
+            <v-icon>mdi-shape-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Categories</v-list-item-title>
+        </v-list-item>
+        <v-list-item :to="{ name: 'AdminOrders' }" link>
+          <v-list-item-icon>
+            <v-icon>mdi-star</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Orders</v-list-item-title>
         </v-list-item>
       </v-list>
 
