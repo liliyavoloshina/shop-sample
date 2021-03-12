@@ -16,7 +16,7 @@
     <v-card-actions class="pa-4">
       <span class="font-weight-bold">{{ product.price }} $</span>
       <v-spacer></v-spacer>
-      <v-btn  @click="addToCart(product)" :disabled="disabled">
+      <v-btn  @click="addToCart(product)" :disabled="disabled || isInCart">
         <LoaderSpinner v-if="addingToCart" :size="20" :width="2" />
         <span v-else-if="!isInCart">Add To Cart</span>
         <span v-else-if="isInCart">In Cart!</span>

@@ -21,5 +21,8 @@ export default {
     if (index > -1) {
       state.cart.splice(index, 1)
     }
+  },
+  CLEAR_CART(state) {
+    state.cart = []
   }
 }

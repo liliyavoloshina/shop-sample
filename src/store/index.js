@@ -5,6 +5,7 @@ import filters from '@/store/modules/filters/index'
 import cart from '@/store/modules/cart/index'
 import auth from '@/store/modules/auth/index'
 import users from '@/store/modules/users/index'
+import orders from '@/store/modules/orders/index'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
     cart,
     filters,
     auth,
-    users
+    users,
+    orders
   }
 })
 

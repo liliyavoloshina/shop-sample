@@ -27,10 +27,15 @@ const deleteItemFromCart = (userId, productId, token) => {
       axios.delete(`/users/${userId}/cart/${key}.json?auth=${token}`)
     })
 }
+const clearCart = (userId, token) => {
+  return axios
+    .delete(`/users/${userId}/cart.json?auth=${token}`)
+}
 
 export default {
   postToCart,
   deleteItemFromCart,
   getCart,
-  patchQuantity
+  patchQuantity,
+  clearCart
 }

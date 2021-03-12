@@ -93,10 +93,11 @@ export default {
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
     const tokenExpiration = localStorage.getItem('tokenExpiration')
-
+    
     const expiresIn = +tokenExpiration - new Date().getTime()
 
     if (expiresIn < 0) {
+      dispatch('autoLogout')
       return
     }
 

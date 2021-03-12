@@ -6,7 +6,7 @@
           <th class="text-left" width="1%">Product</th>
           <th class="text-left"></th>
           <th class="text-left">Price</th>
-          <th class="text-left">Quantity</th>
+          <th class="text-left pl-8">Quantity</th>
           <th class="text-left">Subtotal</th>
         </tr>
       </thead>

@@ -68,5 +68,11 @@ export default {
     const productId = product.id
     await cartApi.deleteItemFromCart(userId, productId, token)
     commit('REMOVE_FROM_CART', product)
+  },
+  async clearCart({commit, rootGetters}) {
+    const userId = rootGetters['auth/userId']
+    const token = rootGetters['auth/token']
+    await cartApi.clearCart(userId, token)
+    commit('CLEAR_CART')
   }
 }

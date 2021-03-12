@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td><v-img :src="item.image" max-width="60"></v-img></td>
+    <td><v-img :src="item.image" max-width="60" max-height="60"></v-img></td>
     <td>
       {{ item.name }}
     </td>
@@ -19,7 +19,7 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <span>{{ item.count }}</span>
-      <v-btn @click="increaseQuantity(item)" icon color="pink">
+      <v-btn @click="increaseQuantity(item)" icon color="green">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </td>
