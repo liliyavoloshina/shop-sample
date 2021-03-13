@@ -10,16 +10,16 @@
         v-if="item.count > 1"
         @click="decreaseQuantity(item)"
         icon
-        color="pink"
+        color="deep-orange accent-3"
       >
         <v-icon>mdi-minus</v-icon>
       </v-btn>
 
-      <v-btn v-if="item.count == 1" @click="deleteItem(item)" icon color="red">
+      <v-btn v-if="item.count == 1" @click="deleteItem(item)" icon color="deep-orange accent-3">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <span>{{ item.count }}</span>
-      <v-btn @click="increaseQuantity(item)" icon color="green">
+      <v-btn @click="increaseQuantity(item)" icon color="green darken-1">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </td>

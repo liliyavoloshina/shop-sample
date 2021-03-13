@@ -16,9 +16,9 @@ export default {
       return this.$store.getters['auth/didAutoLogout']
     }
   },
-  created() {
-    this.$store.dispatch('auth/checkLogin')
-  },
+  // created() {
+  //   this.$store.dispatch('auth/checkLogin')
+  // },
   watch: {
     didAutoLogout(curVal, oldVal) {
       if (curVal && curVal !== oldVal) {
@@ -31,15 +31,10 @@ export default {
 
 <style lang="scss">
 body::-webkit-scrollbar {
-  width: 5px;
+  display: none;
 }
 
 body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
+  display: none;
 }
 </style>

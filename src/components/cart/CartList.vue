@@ -18,13 +18,13 @@
     </v-simple-table>
     <v-row class="mt-12">
       <v-col
-        ><div class="text-h6">
-          Total: <span class="font-weight-black">{{ totalPrice }} $</span>
+        ><div class="text-h6 text-uppercase">
+          Total price: <span class="font-weight-black text-h5"> {{ totalPrice }} $</span>
         </div></v-col
       >
       <v-spacer></v-spacer>
       <v-col class="text-end"
-        ><v-btn color="primary" @click="nextStep"> Continue </v-btn></v-col
+        ><v-btn color="amber darken-1" @click="nextStep"> Continue </v-btn></v-col
       ></v-row
     >
   </div>

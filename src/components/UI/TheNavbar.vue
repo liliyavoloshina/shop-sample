@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="deep-purple lighten-3" dense dark app>
+  <v-app-bar color="grey darken-4" dark app>
     <router-link :to="{ name: 'Home' }" v-slot="{ navigate }" custom>
       <v-toolbar-title @click="navigate" class="pointer"
         >Simple Shop</v-toolbar-title
@@ -8,20 +8,20 @@
 
     <v-spacer></v-spacer>
 
-    <span v-if="isAuthenticated">Hello, {{ username }}!</span>
+    <span v-if="isAuthenticated" class="mx-2">Hello, {{ username }}!</span>
 
-    <v-btn v-if="isAdmin" :to="{ name: 'AdminMain' }" icon>
+    <v-btn v-if="isAdmin" :to="{ name: 'AdminMain' }"  icon >
       <v-icon>mdi-shield-account-variant-outline</v-icon>
     </v-btn>
     
 
-    <v-btn v-if="isAuthenticated" :to="{ name: 'Cart' }" icon>
-      <v-badge v-if="total" :content="total" overlap
+    <v-btn v-if="isAuthenticated" :to="{ name: 'Cart' }"  icon>
+      <v-badge v-if="total" :content="total" overlap color="orange darken-4"
         ><v-icon>mdi-cart</v-icon></v-badge
       >
       <v-icon v-else>mdi-cart</v-icon>
     </v-btn>
-    <v-btn v-if="!isAuthenticated" :to="{ name: 'Login' }" icon>
+    <v-btn v-if="!isAuthenticated" :to="{ name: 'Login' }"  icon replace>
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
     <v-btn v-else @click="logout" icon>

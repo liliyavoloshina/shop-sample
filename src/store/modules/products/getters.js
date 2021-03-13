@@ -8,7 +8,8 @@ export default {
   relatedProducts: (state) => (productId) => {
     const product = state.products.find((item) => item.id == productId)
     const category = product.category
-    // const cat = state.products.find((item) => item.id == productId)
-    return category
+    const thisCategoryProducts = state.products.filter((item) => item.category == category)
+    const relatedProducts = thisCategoryProducts.filter((item) => item.id != productId)
+    return relatedProducts.slice(0, 3)
   }
 }

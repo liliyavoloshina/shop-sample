@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="elevation-2">
     <router-link
       :to="{ name: 'Product', params: { id: product.id } }"
       v-slot="{ navigate }"

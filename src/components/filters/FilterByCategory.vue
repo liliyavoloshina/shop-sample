@@ -32,9 +32,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .v-expansion-panel-content__wrap {
-    padding: 10px;
-  }
-</style>

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main class="deep-purple lighten-5">
+    <v-main class="orange lighten-5">
       <v-container fill-height>
         <v-row no-gutters>
           <v-col align-self="center">
@@ -17,8 +17,3 @@ export default {
   name: 'AuthLayout'
 }
 </script>
-<style>
-/* html {
-  overflow-y: hidden;
-} */
-</style>

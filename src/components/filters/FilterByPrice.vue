@@ -5,9 +5,11 @@
     :min="minProductsPrice"
     :thumb-size="24"
     @change="changeFilterByPrice"
+    color="amber lighten-1"
+    thumb-color="orange darken-4"
+    track-color="amber lighten-4"
     hide-details
-    class="align-center"
-    thumb-color="primary"
+    class="align-center mt-3"
     thumb-label
   ></v-range-slider>
 </template>

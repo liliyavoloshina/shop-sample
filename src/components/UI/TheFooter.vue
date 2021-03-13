@@ -1,29 +1,30 @@
 <template>
-  <v-footer dark padless>
-    <v-card flat tile class="deep-purple lighten-3 text-center">
+  <v-footer class="mt-15" dark padless>
+    <v-card class="grey darken-4 text-center" width="100%">
       <v-card-text>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
+        <v-btn
+          v-for="(link, index) in links"
+          :key="index"
+          :href="link.link"
+          class="mx-4 white--text"
+          icon
+        >
           <v-icon size="24px">
-            {{ icon }}
+            {{ link.icon }}
           </v-icon>
         </v-btn>
       </v-card-text>
 
-      <v-card-text class="white--text pt-0">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-        Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-        accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a
-        sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-        lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-        iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor
-        vel ut orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
+      <v-card-text class="white--text">
+        This online store is made by a novice developer for educational purposes
+        and is not a commercial project. It is open-source and any feedback,
+        comments and suggestions are welcome.
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} — <strong>liliyavoloshine</strong>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -34,7 +35,13 @@ export default {
   name: 'Footer',
   data() {
     return {
-      icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
+      links: [
+        {
+          icon: 'mdi-facebook',
+          link: 'https://www.facebook.com/profile.php?id=100036259350594'
+        },
+        { icon: 'mdi-github', link: 'https://github.com/liliyavoloshina' }
+      ]
     }
   }
 }

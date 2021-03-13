@@ -1,10 +1,10 @@
 <template>
-  <v-container class="mt-5 mb-5">
+  <div>
     <LoaderSpinner v-if="isLoading" />
-    <div v-if="product != null">
-      <div class="title mb-1">
+    <v-container v-if="product != null">
+      <h2 class="mb-1 text-uppercase">
         {{ product.name }}
-      </div>
+      </h2>
       <v-row class="mt-3">
         <v-col cols="12" md="6">
           <v-img
@@ -18,27 +18,33 @@
         <v-col cols="12" md="6">
           <v-row no-gutters style="height: 100%">
             <v-col cols="12">
-              <p>{{ product.description }}</p>
-              <v-chip v-if="product != null">{{ getCategoryName(product.category) }}</v-chip>
+              <p class="text-uppercase">{{ product.description }}</p>
+              <v-chip v-if="categories.length > 0">{{
+                getCategoryName(product.category)
+              }}</v-chip>
             </v-col>
             <v-col cols="12" align-self="end"
-              ><span v-if="product.discount" class="text-h6 text-uppercase yellow--text text--darken-2"
+              ><span
+                v-if="product.discount"
+                class="text-h6 text-uppercase deep-orange--text text--darken-1"
                 >it's on sale!</span
               >
-              <div class="my-5">
+              <div class="my-5 text-uppercase">
                 Price:
                 <span class="font-weight-bold"> {{ product.price }} $</span>
               </div>
-              <div><v-btn
-                @click="addToCart(product)"
-                :disabled="disabled || isInCart"
-                block
-              >
-                <LoaderSpinner v-if="addingToCart" :size="20" :width="2" />
-                <span v-else-if="!isInCart">Add To Cart</span>
-                <span v-else-if="isInCart">In Cart!</span>
-              </v-btn></div>
-              
+              <div>
+                <v-btn
+                  @click="addToCart(product)"
+                  :disabled="disabled || isInCart"
+                  block
+                  color="amber accent-4"
+                >
+                  <LoaderSpinner v-if="addingToCart" :size="20" :width="2" />
+                  <span v-else-if="!isInCart">Add To Cart</span>
+                  <span v-else-if="isInCart">In Cart!</span>
+                </v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -48,20 +54,23 @@
         :error="errors"
         :product="product"
       />
-    </div>
-    <!-- <v-row v-if="!isLoading && relatedProducts && product != null">
-     {{relatedProducts}}
-    </v-row> -->
-  </v-container>
+    </v-container>
+    <RelatedProducts
+      v-if="!isLoading && product != null && relatedProducts.length > 0"
+      :related-products="relatedProducts"
+    />
+  </div>
 </template>
 
 <script>
+import RelatedProducts from '@/components/product/RealtedProducts'
 import LoaderSpinner from '@/components/UI/LoaderSpinner'
 import SnackbarAddToCart from '@/components/UI/SnackbarAddToCart'
 export default {
   name: 'Product',
   props: ['id'],
   components: {
+    RelatedProducts,
     LoaderSpinner,
     SnackbarAddToCart
   },
@@ -78,9 +87,12 @@ export default {
     product() {
       return this.$store.getters['products/product'](this.id)
     },
-    // relatedProducts() {
-    //   return this.$store.getters['products/relatedProducts'](this.id)
-    // },
+    categories() {
+      return this.$store.getters['filters/categories']
+    },
+    relatedProducts() {
+      return this.$store.getters['products/relatedProducts'](this.id)
+    },
     isInCart() {
       return this.$store.getters['cart/isInCart'](this.id)
     }
@@ -91,10 +103,6 @@ export default {
     this.loadCart()
   },
   methods: {
-    getCategoryName(id) {
-      return this.$store.getters['filters/getCategoryName'](id)
-    },
-    
     async loadCategories() {
       this.isLoading = true
       try {
@@ -134,6 +142,9 @@ export default {
       }
       this.addingToCart = false
     },
+    getCategoryName(id) {
+      return this.$store.getters['filters/getCategoryName'](id)
+    }
   }
 }
 </script>

@@ -17,12 +17,15 @@
               type="text"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.firstname.$touch()"
               @blur="$v.firstname.$touch()"
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6"
             ><v-text-field
+            
               v-model="lastname"
               :error-messages="lastnameErrors"
               label="Last Name"
@@ -30,6 +33,8 @@
               type="text"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.lastname.$touch()"
               @blur="$v.lastname.$touch()"
             ></v-text-field>
@@ -43,6 +48,8 @@
               type="email"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.email.$touch()"
               @blur="$v.email.$touch()"
             ></v-text-field
@@ -56,6 +63,8 @@
               type="tel"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.phone.$touch()"
               @blur="$v.phone.$touch()"
             ></v-text-field
@@ -72,6 +81,8 @@
               prepend-inner-icon="mdi-map-marker"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.address.$touch()"
               @blur="$v.address.$touch()"
             ></v-text-field
@@ -85,6 +96,8 @@
               required
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.city.$touch()"
               @blur="$v.city.$touch()"
             ></v-text-field>
@@ -98,6 +111,8 @@
               required
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.state.$touch()"
               @blur="$v.state.$touch()"
             ></v-text-field
@@ -111,6 +126,8 @@
               placeholder="79938"
               filled
               dense
+              
+            color="amber darken-1"
               @input="$v.zip.$touch()"
               @blur="$v.zip.$touch()"
             ></v-text-field
@@ -127,14 +144,16 @@
               prepend-inner-icon="mdi-comment"
               filled
               dense
+              
+            color="amber darken-1"
             ></v-textarea>
           </v-col>
         </v-row>
         <v-row class="mt-12">
-          <v-col><v-btn @click="prevStep"> Cancel </v-btn></v-col>
+          <v-col><v-btn @click="prevStep" > Cancel </v-btn></v-col>
           <v-spacer></v-spacer>
           <v-col class="text-end"
-            ><v-btn @click="submit" :disabled="$v.$invalid" color="primary">
+            ><v-btn @click="submit" :disabled="$v.$invalid" color="amber darken-1">
               Send
             </v-btn></v-col
           >
