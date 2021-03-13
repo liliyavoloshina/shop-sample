@@ -2,13 +2,11 @@
   <v-card>
     <v-card-actions>
       <v-row>
-        <v-col cols="12" sm="4" md="12" align-self="center">
+        <v-col cols="12" sm="6" md="12" align-self="center">
           <FilterByCategory :active-categories="activeCategories" />
         </v-col>
-        <v-col cols="12" sm="4" md="12">
+        <v-col cols="12" sm="6" md="12">
           <FilterByDiscount />
-        </v-col>
-        <v-col cols="12" sm="12" md="12">
           <FilterByPrice />
         </v-col>
       </v-row>

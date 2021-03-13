@@ -4,6 +4,7 @@
       :to="{ name: 'Product', params: { id: product.id } }"
       v-slot="{ navigate }"
       custom
+      class="link"
     >
       <div @click="navigate">
         <div v-if="product.discount" class="sale-badge">Sale!</div>
@@ -22,7 +23,7 @@
         <span v-else-if="isInCart">In Cart!</span>
       </v-btn>
     </v-card-actions>
-    <SnackbarAddToCart :openSnackbar="openSnackbar" :error="error" :product="product" />
+    <SnackbarAddToCart :openSnackbar="openSnackbar" :error="errors" :product="product" />
   </v-card>
 </template>
 
@@ -46,7 +47,7 @@ export default {
       addingToCart: false,
       openSnackbar: false,
       disabled: false,
-      error: null
+      errors: null
     }
   },
   computed: {
@@ -62,7 +63,7 @@ export default {
         await this.$store.dispatch('cart/addToCart', product)
         this.openSnackbar = true
       } catch (e) {
-        this.error = e.message
+        this.errors = e.message
         this.openSnackbar = true
       }
       this.addingToCart = false
@@ -72,6 +73,9 @@ export default {
 </script>
 
 <style scoped>
+.link {
+  cursor: pointer;
+}
 .sale-badge {
   position: absolute;
   right: 0;

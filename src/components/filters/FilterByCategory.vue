@@ -2,9 +2,9 @@
   <v-expansion-panels>
     <v-expansion-panel>
       <v-expansion-panel-header> Categories </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-row>
-          <v-col cols="12" sm="4" md="12">
+      <v-expansion-panel-content class="pa-0">
+        <v-row no-gutters>
+          <v-col cols="12">
             <v-checkbox
               v-for="category in activeCategories"
               :key="category.id"
@@ -32,3 +32,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .v-expansion-panel-content__wrap {
+    padding: 10px;
+  }
+</style>

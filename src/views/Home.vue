@@ -9,7 +9,7 @@
         <EmptyMessage v-if="!isLoading && !filteredProducts.length > 0"
           >No products...</EmptyMessage
         >
-        <SkeletonLoader v-if="isLoading" :whatElem="'ProductItemInhome'" />
+        <SkeletonLoader v-if="isLoading" :whatElem="'ProductItem'" />
         <transition-group name="list" mode="out-in" class="row"
           ><v-col
             v-for="product in filteredProducts"

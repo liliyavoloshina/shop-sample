@@ -25,18 +25,24 @@
         <v-text-field
           v-model="password"
           :error-messages="passwordErrors"
-          label="Password"
-          type="password"
+          @click:append="show = !show"
+          :type="show ? 'text' : 'password'"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           required
+          counter
+          label="Password"
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="repeatPassword"
           :error-messages="repeatPasswordErrors"
-          label="Repeat Password"
-          type="password"
+          @click:append="show = !show"
+          :type="show ? 'text' : 'password'"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           required
+          counter
+          label="Repeat Password"
           @input="$v.repeatPassword.$touch()"
           @blur="$v.repeatPassword.$touch()"
         ></v-text-field>
@@ -95,6 +101,7 @@ export default {
       password: '',
       repeatPassword: '',
       checkbox: false,
+      show: false,
       isLoading: false,
       errors: null
     }

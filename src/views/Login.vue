@@ -19,8 +19,10 @@
         <v-text-field
           v-model="password"
           :error-messages="passwordErrors"
+          @click:append="show = !show"
+          :type="show ? 'text' : 'password'"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           label="Password"
-          type="password"
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
@@ -54,6 +56,7 @@ export default {
     return {
       email: '',
       password: '',
+      show: false,
       isLoading: false,
       errors: null
     }

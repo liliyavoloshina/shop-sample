@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="whatElem == 'ProductItemInhome'">
+    <v-row v-if="whatElem == 'ProductItem'">
       <v-col
         v-for="(item, index) in 5"
         :key="index"

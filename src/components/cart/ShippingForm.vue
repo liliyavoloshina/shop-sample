@@ -7,7 +7,7 @@
         <v-scale-transition>
           <ErrorAlert v-if="errors" :error="errors" />
         </v-scale-transition>
-        <v-row>
+        <v-row dense>
           <v-col cols="12" sm="6"
             ><v-text-field
               v-model="firstname"
@@ -16,6 +16,7 @@
               required
               type="text"
               filled
+              dense
               @input="$v.firstname.$touch()"
               @blur="$v.firstname.$touch()"
             ></v-text-field>
@@ -28,6 +29,7 @@
               required
               type="text"
               filled
+              dense
               @input="$v.lastname.$touch()"
               @blur="$v.lastname.$touch()"
             ></v-text-field>
@@ -40,6 +42,7 @@
               required
               type="email"
               filled
+              dense
               @input="$v.email.$touch()"
               @blur="$v.email.$touch()"
             ></v-text-field
@@ -52,12 +55,13 @@
               required
               type="tel"
               filled
+              dense
               @input="$v.phone.$touch()"
               @blur="$v.phone.$touch()"
             ></v-text-field
           ></v-col>
         </v-row>
-        <v-row>
+        <v-row dense>
           <v-col cols="12"
             ><v-text-field
               v-model="address"
@@ -67,6 +71,7 @@
               placeholder="Snowy Rock Pl"
               prepend-inner-icon="mdi-map-marker"
               filled
+              dense
               @input="$v.address.$touch()"
               @blur="$v.address.$touch()"
             ></v-text-field
@@ -79,6 +84,7 @@
               placeholder="El Paso"
               required
               filled
+              dense
               @input="$v.city.$touch()"
               @blur="$v.city.$touch()"
             ></v-text-field>
@@ -91,6 +97,7 @@
               placeholder="TX"
               required
               filled
+              dense
               @input="$v.state.$touch()"
               @blur="$v.state.$touch()"
             ></v-text-field
@@ -103,13 +110,14 @@
               required
               placeholder="79938"
               filled
+              dense
               @input="$v.zip.$touch()"
               @blur="$v.zip.$touch()"
             ></v-text-field
           ></v-col>
         </v-row>
-        
-        <v-row>
+
+        <v-row dense>
           <v-col cols="12">
             <v-textarea
               v-model="message"
@@ -118,16 +126,19 @@
               clear-icon="mdi-close-circle"
               prepend-inner-icon="mdi-comment"
               filled
+              dense
             ></v-textarea>
           </v-col>
         </v-row>
         <v-row class="mt-12">
           <v-col><v-btn @click="prevStep"> Cancel </v-btn></v-col>
           <v-spacer></v-spacer>
-          <v-col class="text-end"><v-btn @click="submit" :disabled="$v.$invalid" color="primary">
+          <v-col class="text-end"
+            ><v-btn @click="submit" :disabled="$v.$invalid" color="primary">
               Send
-            </v-btn></v-col>
-          </v-row>
+            </v-btn></v-col
+          >
+        </v-row>
       </v-container>
     </form>
   </v-card>

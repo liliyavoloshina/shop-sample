@@ -2,6 +2,10 @@ export default {
   categories(state) {
     return state.categories
   },
+  getCategoryName: (state) => (id) => {
+    const cat = state.categories.find(cat => cat.id == id)
+    return cat.name
+  },
   activeCategories(state) {
     return state.categories.filter((item) => item.count > 0)
   },
