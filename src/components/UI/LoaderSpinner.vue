@@ -19,7 +19,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'purple'
+      default: 'orange darken-4'
     },
     width: {
       type: Number,

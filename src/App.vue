@@ -16,9 +16,6 @@ export default {
       return this.$store.getters['auth/didAutoLogout']
     }
   },
-  // created() {
-  //   this.$store.dispatch('auth/checkLogin')
-  // },
   watch: {
     didAutoLogout(curVal, oldVal) {
       if (curVal && curVal !== oldVal) {

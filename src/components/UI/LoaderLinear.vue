@@ -1,7 +1,7 @@
 <template>
   <v-progress-linear
-    color="deep-purple"
-    height="10"
+    color="orange darken-4"
+    height="5"
     indeterminate
   ></v-progress-linear>
 </template>
