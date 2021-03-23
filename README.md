@@ -1,4 +1,7 @@
 # simple-shop
-Example of a store with an admin panel and authorization
 
-demo: https://simple-shop-sample.herokuapp.com/
+Online shop and admin dashboard with Vue2, firebase backend and auth (REST), vuex, vue-router.
+
+Design with Vuetify and hosting by Heroku.
+
+Demo: https://simple-shop-sample.herokuapp.com/
