@@ -16,8 +16,7 @@
       </v-card-text>
 
       <v-card-text class="white--text">
-        This online store is made by a novice developer for educational purposes
-        and is not a commercial project. It is open-source and any feedback,
+        This online store is open-source and any feedback,
         comments and suggestions are welcome.
       </v-card-text>
 
@@ -36,10 +35,6 @@ export default {
   data() {
     return {
       links: [
-        {
-          icon: 'mdi-facebook',
-          link: 'https://www.facebook.com/profile.php?id=100036259350594'
-        },
         { icon: 'mdi-github', link: 'https://github.com/liliyavoloshina' }
       ]
     }
